@@ -1,6 +1,6 @@
 # Log Weasel
 
-Instrument Rails and Resque with shared transaction IDs so that you trace execution across instances. This particularly handy if you're using a system link <a href="http://www.splunk.com">Splunk</a> to manage your log files across many applications and application instances.
+Instrument Rails and Resque with shared transaction IDs so that you trace execution across instances. This particularly handy if you're using a system like <a href="http://www.splunk.com">Splunk</a> to manage your log files across many applications and application instances.
 
 ## Installation
 
