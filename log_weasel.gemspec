@@ -1,18 +1,23 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
-require "log-weasel/version"
+require "log_weasel/version"
 
 Gem::Specification.new do |s|
-  s.name        = "log-weasel"
+  s.name        = "log_weasel"
   s.version     = Log::Weasel::VERSION
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Alon Salant"]
   s.email       = ["alon@salant.org"]
-  s.homepage    = ""
-  s.summary     = %q{Instrument Rails and Resque with shared transaction IDs so that you trace execution across instances.}
+  s.homepage    = "http://github.com/carbonfive/log_weasel"
+  s.summary     = "log_weasel-#{Log::Weasel::VERSION}"
   s.description = %q{Instrument Rails and Resque with shared transaction IDs so that you trace execution across instances.}
 
-  s.rubyforge_project = "log-weasel"
+  s.rubyforge_project = "log_weasel"
+  
+  s.add_development_dependency('rspec')
+  s.add_development_dependency('mocha')
+  s.add_development_dependency('resque', ['~> 1.0'])
+  s.add_development_dependency('activesupport', ['~> 3.0'])
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")

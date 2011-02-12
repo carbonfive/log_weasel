@@ -4,10 +4,10 @@ Instrument Rails and Resque with shared transaction IDs so that you trace execut
 
 ## Installation
 
-Add log-weasel to your Gemfile:
+Add log_weasel to your Gemfile:
 
 <pre>
-gem 'log-weasel'
+gem 'log_weasel'
 </pre>
 
 Use bundler to install it:
