@@ -7,3 +7,4 @@ require 'log_weasel/resque'
 class << ::HoptoadNotifier
   include LogWeasel::HoptoadNotifier;
 end if defined? ::HoptoadNotifier
+
