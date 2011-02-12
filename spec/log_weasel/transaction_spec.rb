@@ -1,6 +1,5 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 require 'active_support'
-require 'active_support/secure_random'
 
 describe LogWeasel::Transaction do
 
