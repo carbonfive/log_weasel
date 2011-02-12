@@ -1,4 +1,5 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
+require 'log_weasel/buffered_logger'
 
 describe LogWeasel::BufferedLogger do
   before do

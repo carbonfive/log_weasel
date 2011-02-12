@@ -1,7 +1,7 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
-require 'log_weasel'
+require 'log_weasel/transaction'
 require 'rspec'
 
 require 'active_support/secure_random'

@@ -7,7 +7,11 @@ GEM
   remote: http://rubygems.org/
   specs:
     activesupport (3.0.4)
+    builder (3.0.0)
     diff-lcs (1.1.2)
+    hoptoad_notifier (2.4.5)
+      activesupport
+      builder
     json (1.4.6)
     mocha (0.9.11)
       rake
@@ -41,6 +45,7 @@ PLATFORMS
 
 DEPENDENCIES
   activesupport (~> 3.0)
+  hoptoad_notifier
   log_weasel!
   mocha
   resque (~> 1.0)
