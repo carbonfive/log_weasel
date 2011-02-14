@@ -47,6 +47,72 @@ when you configure Resque, for example in a Rails initializer.
 LogWeasel::Resque.initialize! 'YOUR_APP'
 </pre>
 
+Start your Resque worker with <code>VERBOSE=1</code> and you'll see transaction IDs in your Resque logs.
+
+## Example
+
+In this example we have a Rails app pushing jobs to Resque and a Resque worker that run with the Rails environment loaded.
+
+<code>HelloController</code>
+
+<pre>
+class HelloController < ApplicationController
+
+  def index
+    Resque.enqueue EchoJob, 'hello from HelloController'
+    Rails.logger.info("HelloController#index: pushed EchoJob")
+  end
+
+end
+</pre>
+
+<code>EchoJob</code>
+
+<pre>
+class EchoJob
+  @queue = :default_queue
+
+  def self.perform(args)
+    Rails.logger.info("EchoJob.perform: #{args.inspect}")
+  end
+end
+</pre>
+
+Start Resque with:
+
+<pre>
+QUEUE=default_queue rake resque:work VERBOSE=1
+</pre>
+
+Requesting <code>http://localhost:3030/hello/index</code>, our development logs shows:
+
+<pre>
+[2011-02-14 14:37:42] YOUR_APP-WEB-192587b585fa66b19638 48353 INFO
+
+Started GET "/hello/index" for 127.0.0.1 at 2011-02-14 14:37:42 -0800
+[2011-02-14 14:37:42] YOUR_APP-WEB-192587b585fa66b19638 48353 INFO   Processing by HelloController#index as HTML
+[2011-02-14 14:37:42] YOUR_APP-WEB-192587b585fa66b19638 48353 INFO HelloController#index: pushed EchoJob
+[2011-02-14 14:37:42] YOUR_APP-WEB-192587b585fa66b19638 48353 INFO Rendered hello/index.html.erb within layouts/application (1.8ms)
+[2011-02-14 14:37:42] YOUR_APP-WEB-192587b585fa66b19638 48353 INFO Completed 200 OK in 14ms (Views: 6.4ms | ActiveRecord: 0.0ms)
+[2011-02-14 14:37:45] YOUR_APP-WEB-192587b585fa66b19638 48461 INFO EchoJob.perform: "hello from HelloController"
+</pre>
+
+Fire up a Rails console and push a job directly with:
+
+<pre>
+> Resque.enqueue EchoJob, 'hi from Rails console'
+</pre>
+
+and our development log shows:
+
+<pre>
+[2011-02-14 14:37:10] YOUR_APP-RESQUE-a8e54bfb76718d09f8ed 48453 INFO EchoJob.perform: "hi from Rails console"
+</pre>
+
+Units of work initiated from Resque, for example if using a scheduler like
+<a href="https://github.com/bvandenbos/resque-scheduler">resque-scheduler</a>,
+will include 'RESQUE' in the transaction ID to indicate that the work started in Resque.
+
 
 
 ## LICENSE
