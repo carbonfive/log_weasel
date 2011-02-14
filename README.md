@@ -49,6 +49,11 @@ LogWeasel::Resque.initialize! 'YOUR_APP'
 
 Start your Resque worker with <code>VERBOSE=1</code> and you'll see transaction IDs in your Resque logs.
 
+## Hoptoad
+
+If you are using <a href="http://hoptoadapp.com">Hoptoad</a>, Log Weasel will add the parameter <code>log_weasel_id</code>
+to Hoptoad errors so that you can track execution through your application stack that resulted in the error.
+
 ## Example
 
 In this example we have a Rails app pushing jobs to Resque and a Resque worker that run with the Rails environment loaded.
@@ -84,7 +89,7 @@ Start Resque with:
 QUEUE=default_queue rake resque:work VERBOSE=1
 </pre>
 
-Requesting <code>http://localhost:3030/hello/index</code>, our development logs shows:
+Requesting <code>http://localhost:3030/hello/index</code>, our development log shows:
 
 <pre>
 [2011-02-14 14:37:42] YOUR_APP-WEB-192587b585fa66b19638 48353 INFO
