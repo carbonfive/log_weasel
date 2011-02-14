@@ -34,7 +34,7 @@ describe LogWeasel::Transaction do
 
     it 'creates a transaction id with a key' do
       id = LogWeasel::Transaction.create 'KEY'
-      id.should == 'KEY_94b2'
+      id.should == 'KEY-94b2'
       LogWeasel::Transaction.id.should == id
     end
 

@@ -10,6 +10,6 @@ describe LogWeasel::BufferedLogger do
 
   it "logs transaction id" do
     @logger.info 'message'
-    @stringio.string.should =~ /\[123\]/
+    @stringio.string.should =~ / 123 /
   end
 end

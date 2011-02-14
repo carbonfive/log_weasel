@@ -4,7 +4,7 @@ module LogWeasel
   module Transaction
 
     def self.create(key = nil)
-      Thread.current[:log_weasel_id] = "#{key ? "#{key}_" : ""}#{SecureRandom.hex(10)}"
+      Thread.current[:log_weasel_id] = "#{key ? "#{key}-" : ""}#{SecureRandom.hex(10)}"
     end
 
     def self.destroy
