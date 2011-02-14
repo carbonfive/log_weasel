@@ -1,3 +1,5 @@
+require 'active_support/secure_random'
+
 module LogWeasel
   module Transaction
 

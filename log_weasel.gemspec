@@ -17,8 +17,9 @@ Gem::Specification.new do |s|
   s.add_development_dependency('rspec')
   s.add_development_dependency('mocha')
   s.add_development_dependency('resque', ['~> 1.0'])
-  s.add_development_dependency('activesupport', ['~> 3.0'])
-  s.add_development_dependency('hoptoad_notifier',)
+  s.add_development_dependency('hoptoad_notifier')
+
+  s.add_dependency('activesupport', ['~> 3.0'])
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
