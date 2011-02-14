@@ -1,6 +1,8 @@
 # Log Weasel
 
-Instrument Rails and Resque with shared transaction IDs so that you trace execution across instances. This particularly handy if you're using a system like <a href="http://www.splunk.com">Splunk</a> to manage your log files across many applications and application instances.
+Instrument Rails and Resque with shared transaction IDs so that you trace execution of a unit of work across instances.
+This particularly handy if you're using a system like <a href="http://www.splunk.com">Splunk</a> to manage your log
+files across many applications and application instances.
 
 ## Installation
 
@@ -18,7 +20,8 @@ bundle install
 
 ## Rack
 
-Log Weasel provides Rack middleware to create and destroy a transaction for every HTTP request.
+Log Weasel provides Rack middleware to create and destroy a transaction for every HTTP request. You can use it
+in a any web framework that supports Rack (Rails, Sinatra,...)
 
 ### Rails 3
 
@@ -52,7 +55,8 @@ Start your Resque worker with <code>VERBOSE=1</code> and you'll see transaction 
 ## Hoptoad
 
 If you are using <a href="http://hoptoadapp.com">Hoptoad</a>, Log Weasel will add the parameter <code>log_weasel_id</code>
-to Hoptoad errors so that you can track execution through your application stack that resulted in the error.
+to Hoptoad errors so that you can track execution through your application stack that resulted in the error. No additional
+configuration required.
 
 ## Example
 
@@ -118,8 +122,13 @@ Units of work initiated from Resque, for example if using a scheduler like
 <a href="https://github.com/bvandenbos/resque-scheduler">resque-scheduler</a>,
 will include 'RESQUE' in the transaction ID to indicate that the work started in Resque.
 
+## Contributing
+
+If you would like to contribute a fix or integrate Log Weasel transaction tracking into another frameworks
+please fork the code, add the fix or feature in your local project and then send a pull request on github.
+Please ensure that you include a test which verifies your changes.
 
 
 ## LICENSE
 
-Released under the MIT License. See the LICENSE file for further details.
+Copyright (c) 2011 Carbon Five. See LICENSE for details.
