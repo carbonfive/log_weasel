@@ -53,10 +53,10 @@ Start your Resque worker with <code>VERBOSE=1</code> and you'll see transaction 
 
 In this example we have a Rails app pushing jobs to Resque and a Resque worker that run with the Rails environment loaded.
 
-<code>HelloController</code>
+### HelloController
 
 <pre>
-class HelloController < ApplicationController
+class HelloController &lt; ApplicationController
 
   def index
     Resque.enqueue EchoJob, 'hello from HelloController'
@@ -66,7 +66,7 @@ class HelloController < ApplicationController
 end
 </pre>
 
-<code>EchoJob</code>
+### EchoJob
 
 <pre>
 class EchoJob
