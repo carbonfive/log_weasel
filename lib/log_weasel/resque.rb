@@ -1,9 +1,11 @@
 module LogWeasel::Resque
 
-  def self.initialize!(key)
+  def self.initialize!(options = {})
     ::Resque::Worker.send(:include, LogWeasel::Resque::Worker)
     ::Resque::Job.send(:include, LogWeasel::Resque::Job)
     ::Resque.extend(LogWeasel::Resque::ClassMethods)
+
+    key = options[:key] ? "#{options[:key]}-RESQUE" : "RESQUE"
 
     ::Resque.after_fork do |job|
       LogWeasel::Resque::Callbacks.after_fork job, key
@@ -19,12 +21,12 @@ module LogWeasel::Resque
       if job.context && job.context.has_key?('log_weasel_id')
         LogWeasel::Transaction.id = job.context['log_weasel_id']
       else
-        LogWeasel::Transaction.create "#{key}-RESQUE"
+        LogWeasel::Transaction.create key
       end
     end
 
     def self.before_push(queue, item, key)
-      item['context'] = {'log_weasel_id' => (LogWeasel::Transaction.id || LogWeasel::Transaction.create("#{key}-RESQUE"))}
+      item['context'] = {'log_weasel_id' => (LogWeasel::Transaction.id || LogWeasel::Transaction.create(key))}
     end
   end
 
@@ -56,7 +58,7 @@ module LogWeasel::Resque
 
   module Worker
     def log_with_transaction_id(message)
-      log_without_transaction_id "[#{LogWeasel::Transaction.id}] #{message}"
+      log_without_transaction_id "#{LogWeasel::Transaction.id} #{message}"
     end
 
     def self.included(base)

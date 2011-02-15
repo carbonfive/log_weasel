@@ -41,13 +41,15 @@ YourApp::Application.configure do
 end
 </pre>
 
+<code>:key</code> is an optional parameter that is useful in an environment where a unit of work may span multiple applications.
+
 ## Resque
 
 To see Log Weasel transaction IDs in your Resque logs, you need to need to initialize Log Weasel
 when you configure Resque, for example in a Rails initializer.
 
 <pre>
-LogWeasel::Resque.initialize! 'YOUR_APP'
+LogWeasel::Resque.initialize! :key => 'YOUR_APP'
 </pre>
 
 Start your Resque worker with <code>VERBOSE=1</code> and you'll see transaction IDs in your Resque logs.

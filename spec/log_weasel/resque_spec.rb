@@ -5,7 +5,7 @@ require 'log_weasel/resque'
 describe LogWeasel::Resque do
 
   before do
-    LogWeasel::Resque.initialize! 'FOO'
+    LogWeasel::Resque.initialize! :key => 'FOO'
   end
   
   after do
