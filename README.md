@@ -121,6 +121,18 @@ and our development log shows:
 [2011-02-14 14:37:10] YOUR_APP-RESQUE-a8e54bfb76718d09f8ed 48453 INFO EchoJob.perform: "hi from Rails console"
 </pre>
 
+and our resque log shows:
+
+<pre>
+***  got: (Job{default_queue} | EchoJob | ["hello from HelloController"] | {"log_weasel_id"=>"SAMPLE_APP-WEB-a65e45476ff2f5720e23"})
+***  Running after_fork hook with [(Job{default_queue} | EchoJob | ["hello from HelloController"] | {"log_weasel_id"=>"SAMPLE_APP-WEB-a65e45476ff2f5720e23"})]
+*** SAMPLE_APP-WEB-a65e45476ff2f5720e23 done: (Job{default_queue} | EchoJob | ["hello from HelloController"] | {"log_weasel_id"=>"SAMPLE_APP-WEB-a65e45476ff2f5720e23"})
+
+***  got: (Job{default_queue} | EchoJob | ["hi from Rails console"] | {"log_weasel_id"=>"SAMPLE_APP-RESQUE-00919a012476121cf89c"})
+***  Running after_fork hook with [(Job{default_queue} | EchoJob | ["hi from Rails console"] | {"log_weasel_id"=>"SAMPLE_APP-RESQUE-00919a012476121cf89c"})]
+*** SAMPLE_APP-RESQUE-00919a012476121cf89c done: (Job{default_queue} | EchoJob | ["hi from Rails console"] | {"log_weasel_id"=>"SAMPLE_APP-RESQUE-00919a012476121cf89c"})
+</pre>
+
 Units of work initiated from Resque, for example if using a scheduler like
 <a href="https://github.com/bvandenbos/resque-scheduler">resque-scheduler</a>,
 will include 'RESQUE' in the transaction ID to indicate that the work started in Resque.
