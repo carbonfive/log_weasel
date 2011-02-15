@@ -21,7 +21,7 @@ bundle install
 
 ## Rack
 
-Log Weasel provides Rack middleware to create and destroy a transaction for every HTTP request. You can use it
+Log Weasel provides Rack middleware to create and destroy a transaction ID for every HTTP request. You can use it
 in a any web framework that supports Rack (Rails, Sinatra,...)
 
 ### Rails 3
