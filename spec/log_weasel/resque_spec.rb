@@ -12,6 +12,10 @@ describe LogWeasel::Resque do
     LogWeasel::Transaction.destroy
   end
 
+  it "is initialized" do
+    LogWeasel::Resque.initialized?.should be_true
+  end
+
   it "pushes with log_weasel_id in context" do
     Resque.stubs(:redis).returns(stub(:sadd => nil, :rpush => nil))
     Resque.expects(:encode).with do |item|

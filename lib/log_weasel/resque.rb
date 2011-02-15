@@ -1,5 +1,7 @@
 module LogWeasel::Resque
 
+  @@initialized = false
+
   def self.initialize!(options = {})
     ::Resque::Worker.send(:include, LogWeasel::Resque::Worker)
     ::Resque::Job.send(:include, LogWeasel::Resque::Job)
@@ -14,6 +16,12 @@ module LogWeasel::Resque
     ::Resque.before_push do |queue, item|
       LogWeasel::Resque::Callbacks.before_push queue, item, key
     end
+
+    @@initialized = true
+  end
+
+  def self.initialized?
+    @@initialized
   end
 
   module Callbacks
