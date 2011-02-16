@@ -143,6 +143,9 @@ If you would like to contribute a fix or integrate Log Weasel transaction tracki
 please fork the code, add the fix or feature in your local project and then send a pull request on github.
 Please ensure that you include a test which verifies your changes.
 
+## Authors
+
+<a href="http://github.com/asalant">Alon Salant</a> and <a href="http://github.com/brettfishman">Brett Fishman</a>.
 
 ## LICENSE
 
