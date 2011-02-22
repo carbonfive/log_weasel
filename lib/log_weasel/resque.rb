@@ -1,13 +1,11 @@
 module LogWeasel::Resque
 
-  @@initialized = false
-
   def self.initialize!(options = {})
     ::Resque::Worker.send(:include, LogWeasel::Resque::Worker)
     ::Resque::Job.send(:include, LogWeasel::Resque::Job)
     ::Resque.extend(LogWeasel::Resque::ClassMethods)
 
-    key = options[:key] ? "#{options[:key]}-RESQUE" : "RESQUE"
+    key = LogWeasel.config.key ? "#{LogWeasel.config.key}-RESQUE" : "RESQUE"
 
     ::Resque.after_fork do |job|
       LogWeasel::Resque::Callbacks.after_fork job, key
@@ -16,12 +14,6 @@ module LogWeasel::Resque
     ::Resque.before_push do |queue, item|
       LogWeasel::Resque::Callbacks.before_push queue, item, key
     end
-
-    @@initialized = true
-  end
-
-  def self.initialized?
-    @@initialized
   end
 
   module Callbacks

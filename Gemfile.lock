@@ -45,7 +45,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activesupport (~> 3.0)
   hoptoad_notifier
   log_weasel!
   mocha

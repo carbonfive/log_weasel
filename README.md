@@ -2,6 +2,7 @@
 
 Instrument Rails and Resque with shared transaction IDs to trace execution of a unit of work across
 applications and application instances.
+
 This particularly handy if you're using a system like <a href="http://www.splunk.com">Splunk</a> to manage your log
 files across many applications and application instances.
 
@@ -19,16 +20,31 @@ Use bundler to install it:
 bundle install
 </pre>
 
+## Configure
+
+In your application initialization (e.g. config/initializers/log_weasel.rb) load and configure Log Weasel with:
+
+<pre>
+LogWeasel.configure do |config|
+  config.key = "YOUR_APP"
+end
+<pre>
+
+<code>key</code> is a string that will be included in your transaction IDs and is particularly
+useful in an environment where a unit of work may span multiple applications.
+
 ## Rack
 
 Log Weasel provides Rack middleware to create and destroy a transaction ID for every HTTP request. You can use it
-in a any web framework that supports Rack (Rails, Sinatra,...)
+in a any web framework that supports Rack (Rails, Sinatra,...) by using <code>LogWeasel::Middleware</code> in your middleware
+stack.
 
 ### Rails 3
 
-To see Log Weasel transaction IDs in your Rails logs, you need to add the Rack middleware and
-either use the BufferedLogger provided or customize the formatting of your logger to include
-<code>LogWeasel::Transaction.id</code>.
+For Rails 3, we provide a Railtie that automatically registers the Rack middleware.
+
+All you need to see Log Weasel transaction IDs in your Rails logs is to either use the BufferedLogger provided or
+customize the formatting of your logger to include <code>LogWeasel::Transaction.id</code>.
 
 <pre>
 YourApp::Application.configure do
@@ -36,22 +52,12 @@ YourApp::Application.configure do
   config.logger                   = logger
   config.action_controller.logger = logger
   config.active_record.logger     = logger
-
-  config.middleware.insert_before Rails::Rack::Logger,
-                                  LogWeasel::Middleware, :key => 'YOUR_APP'
 end
 </pre>
 
-<code>:key</code> is an optional parameter that is useful in an environment where a unit of work may span multiple applications.
-
 ## Resque
 
-To see Log Weasel transaction IDs in your Resque logs, you need to need to initialize Log Weasel
-when you configure Resque, for example in a Rails initializer.
-
-<pre>
-LogWeasel::Resque.initialize! :key => 'YOUR_APP'
-</pre>
+When you configure Log Weasel as described above, it modifies Resque to include transaction IDs in all worker logs.
 
 Start your Resque worker with <code>VERBOSE=1</code> and you'll see transaction IDs in your Resque logs.
 

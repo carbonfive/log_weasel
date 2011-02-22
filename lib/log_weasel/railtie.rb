@@ -1,3 +1,5 @@
-class Railtie
-  # To change this template use File | Settings | File Templates.
+require 'rails'
+
+class LogWeasel::Railtie < Rails::Railtie
+  config.app_middleware.insert_before "::Rails::Rack::Logger", "LogWeasel::Middleware"
 end

@@ -1,7 +1,7 @@
 class LogWeasel::Middleware
   def initialize(app, options = {})
     @app = app
-    @key = options[:key] ? "#{options[:key]}-WEB" : "WEB"
+    @key = LogWeasel.config.key ? "#{LogWeasel.config.key}-WEB" : "WEB"
   end
 
   def call(env)

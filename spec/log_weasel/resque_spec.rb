@@ -1,19 +1,14 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 require 'resque'
-require 'log_weasel/resque'
 
 describe LogWeasel::Resque do
 
   before do
-    LogWeasel::Resque.initialize! :key => 'FOO'
+    LogWeasel.configure { |config| config.key = "FOO" }
   end
   
   after do
     LogWeasel::Transaction.destroy
-  end
-
-  it "is initialized" do
-    LogWeasel::Resque.initialized?.should be_true
   end
 
   it "pushes with log_weasel_id in context" do

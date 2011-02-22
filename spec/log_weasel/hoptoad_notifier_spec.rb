@@ -1,13 +1,9 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 require 'hoptoad_notifier'
-require 'log_weasel/hoptoad_notifier'
 
 describe LogWeasel::HoptoadNotifier do
   before do
-    class << ::HoptoadNotifier
-      include LogWeasel::HoptoadNotifier;
-    end if defined? ::HoptoadNotifier
-
+    LogWeasel.configure {}
     HoptoadNotifier.configure {}
     LogWeasel::Transaction.stubs(:id).returns('123')
   end
