@@ -28,7 +28,7 @@ In your application initialization (e.g. config/initializers/log_weasel.rb) load
 LogWeasel.configure do |config|
   config.key = "YOUR_APP"
 end
-<pre>
+</pre>
 
 <code>key</code> is a string that will be included in your transaction IDs and is particularly
 useful in an environment where a unit of work may span multiple applications.
