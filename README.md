@@ -20,34 +20,17 @@ Use bundler to install it:
 bundle install
 </pre>
 
-## Configure
+## Rails 3
 
-In your application initialization (e.g. config/initializers/log_weasel.rb) load and configure Log Weasel with:
+For Rails 3, we provide a Railtie that automatically configures and loads Log Weasel.
 
-<pre>
-LogWeasel.configure do |config|
-  config.key = "YOUR_APP"
-end
-</pre>
-
-<code>key</code> is a string that will be included in your transaction IDs and is particularly
-useful in an environment where a unit of work may span multiple applications.
-
-## Rack
-
-Log Weasel provides Rack middleware to create and destroy a transaction ID for every HTTP request. You can use it
-in a any web framework that supports Rack (Rails, Sinatra,...) by using <code>LogWeasel::Middleware</code> in your middleware
-stack.
-
-### Rails 3
-
-For Rails 3, we provide a Railtie that automatically registers the Rack middleware.
-
-All you need to see Log Weasel transaction IDs in your Rails logs is to either use the BufferedLogger provided or
+To see Log Weasel transaction IDs in your Rails logs either use the BufferedLogger provided or
 customize the formatting of your logger to include <code>LogWeasel::Transaction.id</code>.
 
 <pre>
 YourApp::Application.configure do
+  config.log_weasel.key = 'YOUR_APP'    # Optional. Defaults to Rails application name.
+
   logger = LogWeasel::BufferedLogger.new "#{Rails.root}/log/#{Rails.env}.log"
   config.logger                   = logger
   config.action_controller.logger = logger
@@ -55,9 +38,33 @@ YourApp::Application.configure do
 end
 </pre>
 
+
+## Other
+
+### Configure
+
+Load and configure Log Weasel with:
+
+<pre>
+LogWeasel.configure do |config|
+  config.key = "YOUR_APP"
+end
+</pre>
+
+<code>config.key</code> is a string that will be included in your transaction IDs and is particularly
+useful in an environment where a unit of work may span multiple applications. It is optional but you must call
+<code>LogWeasel.configure</code>.
+
+### Rack
+
+Log Weasel provides Rack middleware to create and destroy a transaction ID for every HTTP request. You can use it
+in a any web framework that supports Rack (Rails, Sinatra,...) by using <code>LogWeasel::Middleware</code> in your middleware
+stack.
+
 ## Resque
 
-When you configure Log Weasel as described above, it modifies Resque to include transaction IDs in all worker logs.
+When you configure Log Weasel as described above either in Rails or by explicitly calling <code>LogWeasel.configure</code>,
+it modifies Resque to include transaction IDs in all worker logs.
 
 Start your Resque worker with <code>VERBOSE=1</code> and you'll see transaction IDs in your Resque logs.
 
