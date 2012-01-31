@@ -19,6 +19,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency('mocha')
   s.add_development_dependency('resque')
   s.add_development_dependency('airbrake')
+  s.add_development_dependency('gemfury')
 
   s.add_dependency('activesupport')
 
