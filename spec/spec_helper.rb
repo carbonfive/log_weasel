@@ -10,6 +10,6 @@ rescue
   require 'active_support/secure_random'
 end
 
-Rspec.configure do |config|
+RSpec.configure do |config|
   config.mock_with :mocha
 end
