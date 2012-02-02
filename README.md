@@ -68,11 +68,11 @@ it modifies Resque to include transaction IDs in all worker logs.
 
 Start your Resque worker with <code>VERBOSE=1</code> and you'll see transaction IDs in your Resque logs.
 
-## Hoptoad
+## Airbrake
 
-If you are using <a href="http://hoptoadapp.com">Hoptoad</a>, Log Weasel will add the parameter <code>log_weasel_id</code>
-to Hoptoad errors so that you can track execution through your application stack that resulted in the error. No additional
-configuration required.
+If you are using <a href="http://airbrake.io/p">Airbrake</a>, Log Weasel will add the parameter
+<code>log_weasel_id</code> to Airbrake errors so that you can track execution through your application stack that
+resulted in the error. No additional configuration required.
 
 ## Example
 

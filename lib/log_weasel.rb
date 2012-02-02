@@ -1,6 +1,6 @@
 require 'log_weasel/transaction'
 require 'log_weasel/buffered_logger'
-require 'log_weasel/hoptoad_notifier'
+require 'log_weasel/airbrake'
 require 'log_weasel/middleware'
 require 'log_weasel/resque'
 require 'log_weasel/railtie' if defined? ::Rails::Railtie
@@ -18,9 +18,9 @@ module LogWeasel
   def self.configure
     yield self.config
 
-    if defined? ::HoptoadNotifier
-      class << ::HoptoadNotifier
-        include LogWeasel::HoptoadNotifier;
+    if defined? ::Airbrake
+      class << ::Airbrake
+        include LogWeasel::Airbrake;
       end
     end
 
