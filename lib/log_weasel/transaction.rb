@@ -1,4 +1,8 @@
-require 'active_support/secure_random'
+begin
+  require 'securerandom'
+rescue
+  require 'active_support/secure_random'
+end
 
 module LogWeasel
   module Transaction

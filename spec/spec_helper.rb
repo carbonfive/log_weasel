@@ -4,8 +4,12 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'log_weasel'
 require 'rspec'
 
-require 'active_support/secure_random'
+begin
+  require 'securerandom'
+rescue
+  require 'active_support/secure_random'
+end
 
-Rspec.configure do |config|
+RSpec.configure do |config|
   config.mock_with :mocha
 end

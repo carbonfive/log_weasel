@@ -14,12 +14,14 @@ Gem::Specification.new do |s|
 
   s.rubyforge_project = "log_weasel"
   
+  s.add_development_dependency('rake')
   s.add_development_dependency('rspec')
   s.add_development_dependency('mocha')
-  s.add_development_dependency('resque', ['~> 1.0'])
-  s.add_development_dependency('hoptoad_notifier')
+  s.add_development_dependency('resque')
+  s.add_development_dependency('airbrake')
+  s.add_development_dependency('gemfury')
 
-  s.add_dependency('activesupport', ['~> 3.0'])
+  s.add_dependency('activesupport')
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")

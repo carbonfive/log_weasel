@@ -1,4 +1,4 @@
-module LogWeasel::HoptoadNotifier
+module LogWeasel::Airbrake
   def notify_with_transaction_id(exception, opts = {})
     add_transaction_id(opts) if LogWeasel::Transaction.id
     notify_without_transaction_id exception, opts
