@@ -24,7 +24,7 @@ module LogWeasel
       end
     end
 
-    if defined? Resque
+    if defined? ::Resque
       LogWeasel::Resque.initialize!
     end
 

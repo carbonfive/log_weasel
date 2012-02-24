@@ -5,7 +5,7 @@ class LogWeasel::Railtie < Rails::Railtie
 
   initializer "log_weasel.configure" do |app|
     LogWeasel.configure do |config|
-      config.key = app.config.log_weasel[:key] || self.app_name
+      config.key = app.config.log_weasel[:key] || app_name
     end
 
     app.config.middleware.insert_before "::Rails::Rack::Logger", "LogWeasel::Middleware"
@@ -13,7 +13,7 @@ class LogWeasel::Railtie < Rails::Railtie
 
   private
 
-  def self.app_name
+  def app_name
     ::Rails.application.class.to_s.split("::").first
   end
 end
