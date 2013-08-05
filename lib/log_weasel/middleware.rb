@@ -3,12 +3,11 @@ class LogWeasel::Middleware
 
   def initialize(app, options = {})
     @app = app
-    @key = LogWeasel.config.key ? "#{LogWeasel.config.key}-WEB" : "WEB"
   end
 
   def call(env)
-    key = env.fetch("HTTP_#{KEY_HEADER}", @key)
-    LogWeasel::Transaction.create key
+    key = env.fetch("HTTP_#{KEY_HEADER}", LogWeasel.config.key)
+    LogWeasel::Transaction.create(key)
     @app.call(env)
   ensure
     LogWeasel::Transaction.destroy
