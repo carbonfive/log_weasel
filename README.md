@@ -20,9 +20,9 @@ Use bundler to install it:
 bundle install
 </pre>
 
-## Rails 3
+## Rails
 
-For Rails 3, we provide a Railtie that automatically configures and loads Log Weasel.
+For Rails projects, we provide a Railtie that automatically configures and loads Log Weasel.
 
 To see Log Weasel transaction IDs in your Rails logs either use the Logger provided or
 customize the formatting of your logger to include <code>LogWeasel::Transaction.id</code>.
