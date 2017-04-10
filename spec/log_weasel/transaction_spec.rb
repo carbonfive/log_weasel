@@ -24,7 +24,7 @@ describe LogWeasel::Transaction do
 
   describe ".create" do
     before do
-      SecureRandom.stubs(:hex).returns("94b2")
+      allow(SecureRandom).to receive(:hex).and_return("94b2")
     end
 
     it "creates a transaction id with no key" do

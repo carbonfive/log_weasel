@@ -4,7 +4,7 @@ describe LogWeasel::Logger do
   before do
     @stringio = StringIO.new
     @logger   = LogWeasel::Logger.new @stringio
-    LogWeasel::Transaction.stubs(:id).returns('123')
+    allow(LogWeasel::Transaction).to receive(:id).and_return('123')
   end
 
   it "logs transaction id" do

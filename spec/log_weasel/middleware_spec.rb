@@ -4,9 +4,15 @@ require 'log_weasel'
 
 describe LogWeasel::Middleware do
   let(:app) { double(:call) }
+
   before do
     expect(app).to receive(:call).with(env)
+
+    LogWeasel.configure do |config|
+      config.key = "KEY"
+    end
   end
+
   describe ".call" do
     context "given an env" do
       context "when an HTTP_X_REQUEST_ID header is present" do
@@ -26,12 +32,12 @@ describe LogWeasel::Middleware do
         end
 
         it "creates a new LogWeasel::Transation.id" do
-          expect(LogWeasel::Transaction).to receive(:create).with("WEB")
+          expect(LogWeasel::Transaction).to receive(:create).with("#{LogWeasel.config.key}-WEB")
           LogWeasel::Middleware.new(app).call(env)
         end
 
         it "adds a HTTP_X_REQUEST_ID header" do
-          expect(LogWeasel::Transaction).to receive(:create).with("WEB")
+          expect(LogWeasel::Transaction).to receive(:create).with("#{LogWeasel.config.key}-WEB")
           expect(env).to receive(:[]=).with("HTTP_X_REQUEST_ID", "1234")
           LogWeasel::Middleware.new(app).call(env)
         end

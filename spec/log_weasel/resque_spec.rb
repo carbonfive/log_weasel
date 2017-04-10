@@ -12,8 +12,8 @@ describe LogWeasel::Resque do
   end
 
   it "pushes with log_weasel_id in context" do
-    Resque.stubs(:redis).returns(stub(:sadd => nil, :rpush => nil, :push_to_queue => true))
-    Resque.expects(:encode).with do |item|
+    expect(Resque).to receive(:redis).and_return(double(:sadd => nil, :rpush => nil, :push_to_queue => true))
+    expect(Resque).to receive(:encode) do |item|
       expect(item['context']).to_not be_nil
       expect(item['context']).to have_key('log_weasel_id')
       expect(item['context']['log_weasel_id']).to match(/^FOO-RESQUE/)
@@ -28,7 +28,7 @@ describe LogWeasel::Resque do
       end
 
       it "sets transaction id from args" do
-        LogWeasel::Transaction.expects(:id=).with('123')
+        expect(LogWeasel::Transaction).to receive(:id=).with('123')
         LogWeasel::Resque::Callbacks.after_fork @job, nil
       end
     end
@@ -39,7 +39,7 @@ describe LogWeasel::Resque do
       end
 
       it "creates a new log_weasel_id" do
-        LogWeasel::Transaction.expects(:create)
+        expect(LogWeasel::Transaction).to receive(:create)
         LogWeasel::Resque::Callbacks.after_fork @job, nil
       end
     end

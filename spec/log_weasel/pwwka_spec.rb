@@ -7,7 +7,7 @@ describe LogWeasel::Pwwka do
 
   before do
     LogWeasel.configure { |config| config.key = "FOO" }
-    LogWeasel::Transaction.stubs(:id).returns(transaction_id)
+    allow(LogWeasel::Transaction).to receive(:id).and_return(transaction_id)
   end
 
   after do
@@ -17,7 +17,7 @@ describe LogWeasel::Pwwka do
   let(:pwwka_client) { MockPwwkaTransmitter }
 
   it "adds transaction id to logf" do
-    pwwka_client.expects(:logf_without_transaction_id).with do |format, _|
+    expect(pwwka_client).to receive(:logf_without_transaction_id) do |format, _|
       expect(format.scan(/#{transaction_id}/)).not_to be_empty
     end
     pwwka_client.logf("Transmitting message %{routing_key} -> %{payload}", {foo: "bar"})
