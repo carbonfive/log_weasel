@@ -1,8 +1,9 @@
 require 'log_weasel/transaction'
-require 'log_weasel/buffered_logger'
+require 'log_weasel/logger'
 require 'log_weasel/airbrake'
 require 'log_weasel/middleware'
 require 'log_weasel/resque'
+require 'log_weasel/pwwka'
 require 'log_weasel/railtie' if defined? ::Rails::Railtie
 
 
@@ -20,8 +21,12 @@ module LogWeasel
 
     if defined? ::Airbrake
       class << ::Airbrake
-        include LogWeasel::Airbrake;
+        include LogWeasel::Airbrake
       end
+    end
+
+    if defined? Pwwka
+      LogWeasel::Pwwka.initialize!
     end
 
     if defined? Resque
@@ -30,5 +35,3 @@ module LogWeasel
 
   end
 end
-
-#Rails.application.class.to_s.split("::").first
