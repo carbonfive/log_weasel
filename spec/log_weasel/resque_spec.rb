@@ -12,11 +12,11 @@ describe LogWeasel::Resque do
   end
 
   it "pushes with log_weasel_id in context" do
-    Resque.stubs(:redis).returns(stub(:sadd => nil, :rpush => nil))
+    Resque.stubs(:redis).returns(stub(:sadd => nil, :rpush => nil, :push_to_queue => true))
     Resque.expects(:encode).with do |item|
-      item['context'].should_not be_nil
-      item['context'].should have_key('log_weasel_id')
-      item['context']['log_weasel_id'].should =~ /^FOO-RESQUE/
+      expect(item['context']).to_not be_nil
+      expect(item['context']).to have_key('log_weasel_id')
+      expect(item['context']['log_weasel_id']).to match(/^FOO-RESQUE/)
     end
     Resque.push('queue', {'args' => [1]})
   end
