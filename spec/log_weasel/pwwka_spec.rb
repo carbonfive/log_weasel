@@ -17,8 +17,8 @@ describe LogWeasel::Pwwka do
   let(:pwwka_client) { MockPwwkaTransmitter }
 
   it "adds transaction id to logf" do
-    pwwka_client.expects(:logf_without_transaction_id).with do |format, params|
-      expect( format.scan(/#{transaction_id}/) ).not_to be_empty
+    pwwka_client.expects(:logf_without_transaction_id).with do |format, _|
+      expect(format.scan(/#{transaction_id}/)).not_to be_empty
     end
     pwwka_client.logf("Transmitting message %{routing_key} -> %{payload}", {foo: "bar"})
   end
