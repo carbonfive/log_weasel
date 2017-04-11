@@ -8,7 +8,7 @@ class LogWeasel::Railtie < Rails::Railtie
       config.key = app.config.log_weasel[:key] || self.app_name
     end
 
-    app.config.middleware.insert_before "::Rails::Rack::Logger", "LogWeasel::Middleware"
+    app.config.middleware.insert_before "::ActionDispatch::RequestId", LogWeasel::Middleware
   end
 
   private

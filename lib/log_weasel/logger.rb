@@ -1,6 +1,6 @@
-require 'active_support/buffered_logger'
+require 'active_support/logger'
 
-class LogWeasel::BufferedLogger < ::ActiveSupport::BufferedLogger
+class LogWeasel::Logger < ::ActiveSupport::Logger
   def add(severity, message = nil, progname = nil, &block)
     super(severity, "[#{DateTime.now.strftime('%Y-%m-%d %H:%M:%S')}] #{LogWeasel::Transaction.id} #$$ #{format_severity(severity)} #{message}", progname, &block)
   end

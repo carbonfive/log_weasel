@@ -6,8 +6,8 @@ Gem::Specification.new do |s|
   s.name        = "log_weasel"
   s.version     = Log::Weasel::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ["Alon Salant"]
-  s.email       = ["alon@salant.org"]
+  s.authors     = ["Alon Salant", "Brett Fishman"]
+  s.email       = ["alon@salant.org", "brettfishman@gmail.com"]
   s.homepage    = "http://github.com/carbonfive/log_weasel"
   s.summary     = "log_weasel-#{Log::Weasel::VERSION}"
   s.description = %q{Instrument Rails and Resque with shared transaction IDs so that you trace execution across instances.}
@@ -16,9 +16,11 @@ Gem::Specification.new do |s|
   
   s.add_development_dependency('rake')
   s.add_development_dependency('rspec')
+  s.add_development_dependency('rspec_junit_formatter')
   s.add_development_dependency('mocha')
   s.add_development_dependency('resque')
   s.add_development_dependency('airbrake')
+  s.add_development_dependency('pwwka')
   s.add_development_dependency('gemfury')
 
   s.add_dependency('activesupport')
