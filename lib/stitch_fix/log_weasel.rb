@@ -1,10 +1,14 @@
-require 'log_weasel/transaction'
-require 'log_weasel/logger'
-require 'log_weasel/airbrake'
-require 'log_weasel/middleware'
-require 'log_weasel/resque'
-require 'log_weasel/pwwka'
-require 'log_weasel/railtie' if defined? ::Rails::Railtie
+module StitchFix
+  module LogWeasel
+  end
+end
+require 'stitch_fix/log_weasel/transaction'
+require 'stitch_fix/log_weasel/logger'
+require 'stitch_fix/log_weasel/airbrake'
+require 'stitch_fix/log_weasel/middleware'
+require 'stitch_fix/log_weasel/resque'
+require 'stitch_fix/log_weasel/pwwka'
+require 'stitch_fix/log_weasel/railtie' if defined? ::Rails::Railtie
 
 
 module LogWeasel

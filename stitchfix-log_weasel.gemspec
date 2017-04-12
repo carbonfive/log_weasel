@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
-require "log_weasel/version"
+require "stitch_fix/log_weasel/version"
 
 Gem::Specification.new do |s|
   s.name        = "stitchfix-log_weasel"
