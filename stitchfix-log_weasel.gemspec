@@ -4,12 +4,12 @@ require "stitch_fix/log_weasel/version"
 
 Gem::Specification.new do |s|
   s.name        = "stitchfix-log_weasel"
-  s.version     = Log::Weasel::VERSION
+  s.version     = StitchFix::LogWeasel::VERSION
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Alon Salant", "Brett Fishman"]
   s.email       = ["alon@salant.org", "brettfishman@gmail.com"]
   s.homepage    = "http://github.com/stitchfix/log_weasel"
-  s.summary     = "stitchfix-log_weasel-#{Log::Weasel::VERSION}"
+  s.summary     = "stitchfix-log_weasel-#{StitchFix::LogWeasel::VERSION}"
   s.description = %q{Instrument Rails and Resque with shared transaction IDs so that you trace execution across instances.}
 
   s.add_development_dependency('rake')

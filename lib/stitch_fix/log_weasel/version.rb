@@ -1,5 +1,5 @@
-module Log
-  module Weasel
-    VERSION = "1.0.0.rc1"
+module StitchFix
+  module LogWeasel
+    VERSION = '1.0.0.rc2'
   end
 end

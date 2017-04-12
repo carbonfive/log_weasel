@@ -2,13 +2,13 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 require 'stitch_fix/log_weasel'
 
 
-describe LogWeasel::Middleware do
+describe StitchFix::LogWeasel::Middleware do
   let(:app) { double(:call) }
 
   before do
     expect(app).to receive(:call).with(env)
 
-    LogWeasel.configure do |config|
+    StitchFix::LogWeasel.configure do |config|
       config.key = "KEY"
     end
   end
@@ -19,8 +19,8 @@ describe LogWeasel::Middleware do
         let(:env) { {"HTTP_X_REQUEST_ID" => "1234"} }
 
         it "sets LogWeasel::Transation.id to the X-Request-Id value" do
-          expect(LogWeasel::Transaction).to receive(:id=).with("1234")
-          LogWeasel::Middleware.new(app).call(env)
+          expect(StitchFix::LogWeasel::Transaction).to receive(:id=).with("1234")
+          StitchFix::LogWeasel::Middleware.new(app).call(env)
         end
       end
 
@@ -28,18 +28,18 @@ describe LogWeasel::Middleware do
         let(:env) { {} }
 
         before do
-          allow(LogWeasel::Transaction).to receive(:id).and_return("1234")
+          allow(StitchFix::LogWeasel::Transaction).to receive(:id).and_return("1234")
         end
 
         it "creates a new LogWeasel::Transation.id" do
-          expect(LogWeasel::Transaction).to receive(:create).with("#{LogWeasel.config.key}-WEB")
-          LogWeasel::Middleware.new(app).call(env)
+          expect(StitchFix::LogWeasel::Transaction).to receive(:create).with("#{StitchFix::LogWeasel.config.key}-WEB")
+          StitchFix::LogWeasel::Middleware.new(app).call(env)
         end
 
         it "adds a HTTP_X_REQUEST_ID header" do
-          expect(LogWeasel::Transaction).to receive(:create).with("#{LogWeasel.config.key}-WEB")
+          expect(StitchFix::LogWeasel::Transaction).to receive(:create).with("#{StitchFix::LogWeasel.config.key}-WEB")
           expect(env).to receive(:[]=).with("HTTP_X_REQUEST_ID", "1234")
-          LogWeasel::Middleware.new(app).call(env)
+          StitchFix::LogWeasel::Middleware.new(app).call(env)
         end
       end
 
@@ -47,8 +47,8 @@ describe LogWeasel::Middleware do
         let(:env) { {} }
 
         it "destroys the current LogWeasel::Transaction.id" do
-          expect(LogWeasel::Transaction).to receive(:destroy)
-          LogWeasel::Middleware.new(app).call(env)
+          expect(StitchFix::LogWeasel::Transaction).to receive(:destroy)
+          StitchFix::LogWeasel::Middleware.new(app).call(env)
         end
       end
     end

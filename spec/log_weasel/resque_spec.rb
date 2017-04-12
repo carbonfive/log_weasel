@@ -1,14 +1,14 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 require 'resque'
 
-describe LogWeasel::Resque do
+describe StitchFix::LogWeasel::Resque do
 
   before do
-    LogWeasel.configure { |config| config.key = "FOO" }
+    StitchFix::LogWeasel.configure { |config| config.key = "FOO" }
   end
   
   after do
-    LogWeasel::Transaction.destroy
+    StitchFix::LogWeasel::Transaction.destroy
   end
 
   it "pushes with log_weasel_id in context" do
@@ -28,8 +28,8 @@ describe LogWeasel::Resque do
       end
 
       it "sets transaction id from args" do
-        expect(LogWeasel::Transaction).to receive(:id=).with('123')
-        LogWeasel::Resque::Callbacks.after_fork @job, nil
+        expect(StitchFix::LogWeasel::Transaction).to receive(:id=).with('123')
+        StitchFix::LogWeasel::Resque::Callbacks.after_fork @job, nil
       end
     end
 
@@ -39,8 +39,8 @@ describe LogWeasel::Resque do
       end
 
       it "creates a new log_weasel_id" do
-        expect(LogWeasel::Transaction).to receive(:create)
-        LogWeasel::Resque::Callbacks.after_fork @job, nil
+        expect(StitchFix::LogWeasel::Transaction).to receive(:create)
+        StitchFix::LogWeasel::Resque::Callbacks.after_fork @job, nil
       end
     end
   end

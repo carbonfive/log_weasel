@@ -1,7 +1,3 @@
-module StitchFix
-  module LogWeasel
-  end
-end
 require 'stitch_fix/log_weasel/transaction'
 require 'stitch_fix/log_weasel/logger'
 require 'stitch_fix/log_weasel/airbrake'
@@ -10,32 +6,33 @@ require 'stitch_fix/log_weasel/resque'
 require 'stitch_fix/log_weasel/pwwka'
 require 'stitch_fix/log_weasel/railtie' if defined? ::Rails::Railtie
 
+module StitchFix
+  module LogWeasel
+    class Config
+      attr_accessor :key
+    end
 
-module LogWeasel
-  class Config
-    attr_accessor :key
-  end
+    def self.config
+      @@config ||= Config.new
+    end
 
-  def self.config
-    @@config ||= Config.new
-  end
+    def self.configure
+      yield self.config
 
-  def self.configure
-    yield self.config
-
-    if defined? ::Airbrake
-      class << ::Airbrake
-        include LogWeasel::Airbrake
+      if defined? ::Airbrake
+        class << ::Airbrake
+          include StitchFix::LogWeasel::Airbrake
+        end
       end
-    end
 
-    if defined? ::Pwwka
-      LogWeasel::Pwwka.initialize!
-    end
+      if defined? ::Pwwka
+        StitchFix::LogWeasel::Pwwka.initialize!
+      end
 
-    if defined? ::Resque
-      LogWeasel::Resque.initialize!
-    end
+      if defined? ::Resque
+        StitchFix::LogWeasel::Resque.initialize!
+      end
 
+    end
   end
 end
