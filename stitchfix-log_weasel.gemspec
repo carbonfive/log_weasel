@@ -3,17 +3,15 @@ $:.push File.expand_path("../lib", __FILE__)
 require "log_weasel/version"
 
 Gem::Specification.new do |s|
-  s.name        = "log_weasel"
+  s.name        = "stitchfix-log_weasel"
   s.version     = Log::Weasel::VERSION
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Alon Salant", "Brett Fishman"]
   s.email       = ["alon@salant.org", "brettfishman@gmail.com"]
-  s.homepage    = "http://github.com/carbonfive/log_weasel"
-  s.summary     = "log_weasel-#{Log::Weasel::VERSION}"
+  s.homepage    = "http://github.com/stitchfix/log_weasel"
+  s.summary     = "stitchfix-log_weasel-#{Log::Weasel::VERSION}"
   s.description = %q{Instrument Rails and Resque with shared transaction IDs so that you trace execution across instances.}
 
-  s.rubyforge_project = "log_weasel"
-  
   s.add_development_dependency('rake')
   s.add_development_dependency('rspec')
   s.add_development_dependency('rspec_junit_formatter')

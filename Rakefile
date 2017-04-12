@@ -16,7 +16,7 @@ require 'stitch_fix/y/tasks'
 
 include Rake::DSL
 
-gemspec = eval(File.read('log_weasel.gemspec'))
+gemspec = eval(File.read('stitchfix-log_weasel.gemspec'))
 Gem::PackageTask.new(gemspec) {}
 RSpec::Core::RakeTask.new(:spec)
 StitchFix::Y::ReleaseTask.for_rubygems(gemspec)
