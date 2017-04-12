@@ -22,6 +22,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency('airbrake')
   s.add_development_dependency('pwwka')
   s.add_development_dependency('gemfury')
+  s.add_development_dependency('stitchfix-y')
 
   s.add_dependency('activesupport')
 
