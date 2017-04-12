@@ -25,11 +25,11 @@ module LogWeasel
       end
     end
 
-    if defined? Pwwka
+    if defined? ::Pwwka
       LogWeasel::Pwwka.initialize!
     end
 
-    if defined? Resque
+    if defined? ::Resque
       LogWeasel::Resque.initialize!
     end
 
