@@ -1,23 +1,23 @@
 require File.expand_path(File.dirname(__FILE__) + "/../spec_helper")
 require "active_support"
 
-describe LogWeasel::Transaction do
+describe StitchFix::LogWeasel::Transaction do
 
   describe ".id" do
     context "if not set" do
       it "is nil" do
-        expect(LogWeasel::Transaction.id).to be_nil
+        expect(StitchFix::LogWeasel::Transaction.id).to be_nil
       end
     end
   end
 
   describe ".id=" do
     before do
-      LogWeasel::Transaction.id = "1234"
+      StitchFix::LogWeasel::Transaction.id = "1234"
     end
 
     it "sets the id" do
-      expect(LogWeasel::Transaction.id).to eq "1234"
+      expect(StitchFix::LogWeasel::Transaction.id).to eq "1234"
     end
 
   end
@@ -28,26 +28,26 @@ describe LogWeasel::Transaction do
     end
 
     it "creates a transaction id with no key" do
-      id = LogWeasel::Transaction.create
+      id = StitchFix::LogWeasel::Transaction.create
       expect(id).to eq '94b2'
     end
 
     it "creates a transaction id with a key" do
-      id = LogWeasel::Transaction.create "KEY"
+      id = StitchFix::LogWeasel::Transaction.create "KEY"
       expect(id).to eq "KEY-94b2"
-      expect(LogWeasel::Transaction.id).to eq id
+      expect(StitchFix::LogWeasel::Transaction.id).to eq id
     end
 
   end
 
   describe ".destroy" do
     before do
-      LogWeasel::Transaction.create
+      StitchFix::LogWeasel::Transaction.create
     end
 
     it "removes transaction id" do
-      LogWeasel::Transaction.destroy
-      expect(LogWeasel::Transaction.id).to be_nil
+      StitchFix::LogWeasel::Transaction.destroy
+      expect(StitchFix::LogWeasel::Transaction.id).to be_nil
     end
   end
 end
