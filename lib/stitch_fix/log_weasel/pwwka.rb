@@ -1,5 +1,3 @@
-require 'pwwka'
-
 module StitchFix
   module LogWeasel::Pwwka
 
