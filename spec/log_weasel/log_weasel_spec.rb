@@ -9,7 +9,7 @@ describe LogWeasel do
       LogWeasel.configure do |config|
         config.key = "KEY"
       end
-      LogWeasel.config.key.should == "KEY"
+      expect(LogWeasel.config.key).to eq "KEY"
     end
   end
 

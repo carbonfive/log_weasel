@@ -20,18 +20,18 @@ Use bundler to install it:
 bundle install
 </pre>
 
-## Rails 3
+## Rails
 
-For Rails 3, we provide a Railtie that automatically configures and loads Log Weasel.
+For Rails projects, we provide a Railtie that automatically configures and loads Log Weasel.
 
-To see Log Weasel transaction IDs in your Rails logs either use the BufferedLogger provided or
+To see Log Weasel transaction IDs in your Rails logs either use the Logger provided or
 customize the formatting of your logger to include <code>LogWeasel::Transaction.id</code>.
 
 <pre>
 YourApp::Application.configure do
   config.log_weasel.key = 'YOUR_APP'    # Optional. Defaults to Rails application name.
 
-  logger = LogWeasel::BufferedLogger.new "#{Rails.root}/log/#{Rails.env}.log"
+  logger = LogWeasel::Logger.new "#{Rails.root}/log/#{Rails.env}.log"
   config.logger                   = logger
   config.action_controller.logger = logger
   config.active_record.logger     = logger

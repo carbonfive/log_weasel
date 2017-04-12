@@ -11,5 +11,5 @@ rescue
 end
 
 RSpec.configure do |config|
-  config.mock_with :mocha
+  config.mock_with :rspec
 end
