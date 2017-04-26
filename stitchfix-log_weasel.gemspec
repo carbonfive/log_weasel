@@ -12,18 +12,18 @@ Gem::Specification.new do |s|
   s.summary     = "stitchfix-log_weasel-#{StitchFix::LogWeasel::VERSION}"
   s.description = %q{Instrument Rails and Resque with shared transaction IDs so that you trace execution across instances.}
 
+  s.add_development_dependency('airbrake')
+  s.add_development_dependency('gemfury')
+  s.add_development_dependency('logger')
+  s.add_development_dependency('mocha')
+  s.add_development_dependency('pwwka')
   s.add_development_dependency('rake')
+  s.add_development_dependency('resque')
   s.add_development_dependency('rspec')
   s.add_development_dependency('rspec_junit_formatter')
-  s.add_development_dependency('mocha')
-  s.add_development_dependency('resque')
-  s.add_development_dependency('airbrake')
-  s.add_development_dependency('pwwka')
-  s.add_development_dependency('gemfury')
   s.add_development_dependency('stitchfix-y')
 
   s.add_dependency('activesupport')
-  s.add_dependency('logger')
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
