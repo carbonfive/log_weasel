@@ -22,6 +22,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency('rspec')
   s.add_development_dependency('rspec_junit_formatter')
   s.add_development_dependency('stitchfix-y')
+  s.add_development_dependency('combustion')
 
   s.add_dependency('activesupport')
 

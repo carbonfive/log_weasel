@@ -6,10 +6,10 @@ module StitchFix
 
     initializer "log_weasel.configure" do |app|
       LogWeasel.configure do |config|
-        config.key = app.config.log_weasel[:key] || self.app_name
+        config.key = app.config.log_weasel[:key] || LogWeasel::Railtie.app_name
       end
 
-      app.config.middleware.insert_before "::ActionDispatch::RequestId", LogWeasel::Middleware
+      app.config.middleware.insert_before ::ActionDispatch::RequestId, LogWeasel::Middleware
     end
 
     private
