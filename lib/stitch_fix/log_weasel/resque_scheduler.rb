@@ -14,8 +14,7 @@ module StitchFix
         setup_without_log_weasel
 
         puts "initializing Log Weasel"
-        # TODO: Use the correct library path below
-        require "/Users/brettfishman/dev/log_weasel/lib/stitch_fix/log_weasel"
+        require "stitch_fix/log_weasel"
         key = defined?(::Rails::Railtie) ? StitchFix::LogWeasel::Railtie.app_name.upcase : nil
         key ? "#{key}-RESQUE" : "RESQUE"
         StitchFix::LogWeasel.configure { |config| config.key = key }
