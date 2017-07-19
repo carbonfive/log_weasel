@@ -4,12 +4,10 @@ module StitchFix
     def self.initialize!
       ::Pwwka::Logging.send(:include, LogWeasel::Pwwka::Logging)
       ::Pwwka::PublishOptions.send(:include, LogWeasel::Pwwka::PublishOptions)
-      # ::Pwwka::Transmitter.send(:include, LogWeasel::Pwwka::InstanceMethods)
     end
 
     module Logging
       def logf_with_transaction_id(format, params)
-        puts "from logf_with_transaction_id params: #{params}"
         logf_without_transaction_id "[#{LogWeasel::Transaction.id}] #{format}", params
       end
 
@@ -21,9 +19,7 @@ module StitchFix
 
     module PublishOptions
       def to_h_with_correlation_id
-        puts "PublishOptions#to_h_with_correlation_id"
-        key = LogWeasel.config.key ? "#{LogWeasel.config.key}-PWWKA" : "PWWKA"
-        to_h_without_correlation_id.merge(correlation_id: LogWeasel::Transaction.id || LogWeasel::Transaction.create(key))
+        to_h_without_correlation_id.merge(correlation_id: LogWeasel::Transaction.id)
       end
 
       def self.included(base)

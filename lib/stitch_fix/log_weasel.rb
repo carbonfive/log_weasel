@@ -3,7 +3,9 @@ require 'stitch_fix/log_weasel/logger'
 require 'stitch_fix/log_weasel/airbrake'
 require 'stitch_fix/log_weasel/middleware'
 require 'stitch_fix/log_weasel/resque'
+require 'stitch_fix/log_weasel/resque_scheduler'
 require 'stitch_fix/log_weasel/pwwka'
+require 'stitch_fix/log_weasel/monkey_patches'
 require 'stitch_fix/log_weasel/railtie' if defined? ::Rails::Railtie
 
 module StitchFix
@@ -33,6 +35,9 @@ module StitchFix
         StitchFix::LogWeasel::Resque.initialize!
       end
 
+      if defined? ::Resque::Scheduler
+        StitchFix::LogWeasel::ResqueScheduler.initialize!
+      end
     end
   end
 end

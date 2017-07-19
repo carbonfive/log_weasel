@@ -26,7 +26,7 @@ module StitchFix
         end
       end
 
-      def self.before_push(queue, item, key)
+      def self.before_push(_queue, item, key)
         item['context'] = {'log_weasel_id' => (LogWeasel::Transaction.id || LogWeasel::Transaction.create(key))}
       end
     end
