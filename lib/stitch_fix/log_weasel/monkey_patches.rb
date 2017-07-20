@@ -1,3 +1,5 @@
+require 'resque-scheduler'
+
 module Resque
   module Scheduler
     # Example config:
