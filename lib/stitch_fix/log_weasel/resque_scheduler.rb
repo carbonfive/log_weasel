@@ -4,8 +4,10 @@ module StitchFix
   module LogWeasel::ResqueScheduler
 
     def self.initialize!(options = {})
-      ::Resque::Scheduler::DelayingExtensions.send(:include, LogWeasel::ResqueScheduler::DelayingExtensions)
-      ::Resque::Scheduler::Env.send(:include, LogWeasel::ResqueScheduler::Env)
+      unless defined?(::Rails) && ::Rails.env.test?
+        ::Resque::Scheduler::DelayingExtensions.send(:include, LogWeasel::ResqueScheduler::DelayingExtensions)
+        ::Resque::Scheduler::Env.send(:include, LogWeasel::ResqueScheduler::Env)
+      end
     end
 
     module Env

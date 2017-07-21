@@ -4,6 +4,9 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 describe StitchFix::LogWeasel::ResqueScheduler do
 
   describe "Env" do
+    before do
+      ::Resque::Scheduler::Env.send(:include, StitchFix::LogWeasel::ResqueScheduler::Env)
+    end
     describe "#setup" do
       it "instruments resque-scheduler with Log Weasel" do
         expect(StitchFix::LogWeasel).to receive(:configure)
@@ -14,6 +17,7 @@ describe StitchFix::LogWeasel::ResqueScheduler do
 
   describe "DelayingExtensions" do
     before do
+      ::Resque::Scheduler::DelayingExtensions.send(:include, StitchFix::LogWeasel::ResqueScheduler::DelayingExtensions)
       expect(StitchFix::LogWeasel::Transaction).to receive(:id).and_return("12345")
     end
 
