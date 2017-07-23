@@ -3,6 +3,59 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe StitchFix::LogWeasel::ResqueScheduler do
 
+  describe ".enqueue" do
+    let(:config) do
+      {"class"=>"EchoJob", "args"=>["delayed hello from HelloController", {"log_weasel_id"=>"FOO-WEB-1234"}]}
+    end
+
+    it "calls setup_log_weasel_transaction_id" do
+      expect(Resque::Scheduler).to receive(:setup_log_weasel_transaction_id)
+      Resque::Scheduler.enqueue(config)
+    end
+
+    context "when args is an Array" do
+      context "with a log_weasel_id present" do
+        it "sets the current Transaction ID to it" do
+          expect(StitchFix::LogWeasel::Transaction).to receive(:id=).with("FOO-WEB-1234")
+          Resque::Scheduler.enqueue(config)
+        end
+
+        it "removes it" do
+          expect(config["args"]).to eq(["delayed hello from HelloController", {"log_weasel_id" => "FOO-WEB-1234"}])
+          Resque::Scheduler.enqueue(config)
+          expect(config["args"]).to eq(["delayed hello from HelloController"])
+        end
+      end
+
+      context "without a log_weasel_id" do
+        let(:config) do
+          {"class" => "EchoJob", "args" => ["delayed hello from HelloController"]}
+        end
+
+        it "doesn't modify args" do
+          Resque::Scheduler.enqueue(config)
+          expect(config["args"]).to eq(["delayed hello from HelloController"])
+        end
+      end
+    end
+
+    context "when args is not an Array" do
+      let(:config) do
+        {"class" => "EchoJob", "args" => "delayed hello from HelloController"}
+      end
+
+      it "sets the current Transaction ID to nil" do
+        expect(StitchFix::LogWeasel::Transaction).to receive(:id=).with(nil)
+        Resque::Scheduler.enqueue(config)
+      end
+
+      it "doesn't modify args" do
+        Resque::Scheduler.enqueue(config)
+        expect(config["args"]).to eq("delayed hello from HelloController")
+      end
+    end
+  end
+
   describe "Env" do
     before do
       ::Resque::Scheduler::Env.send(:include, StitchFix::LogWeasel::ResqueScheduler::Env)
