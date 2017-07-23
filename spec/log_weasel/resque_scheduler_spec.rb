@@ -5,7 +5,12 @@ describe StitchFix::LogWeasel::ResqueScheduler do
 
   describe ".enqueue" do
     let(:config) do
-      {"class"=>"EchoJob", "args"=>["delayed hello from HelloController", {"log_weasel_id"=>"FOO-WEB-1234"}]}
+      {"class"=>"EchoJob", "args"=>["Hello from HelloController", {"log_weasel_id"=>"FOO-WEB-1234"}]}
+    end
+
+    before do
+      # so jobs aren't enqueued
+      expect(Resque::Job).to receive(:create).and_return(true)
     end
 
     it "calls setup_log_weasel_transaction_id" do
@@ -21,27 +26,27 @@ describe StitchFix::LogWeasel::ResqueScheduler do
         end
 
         it "removes it" do
-          expect(config["args"]).to eq(["delayed hello from HelloController", {"log_weasel_id" => "FOO-WEB-1234"}])
+          expect(config["args"]).to eq(["Hello from HelloController", {"log_weasel_id" => "FOO-WEB-1234"}])
           Resque::Scheduler.enqueue(config)
-          expect(config["args"]).to eq(["delayed hello from HelloController"])
+          expect(config["args"]).to eq(["Hello from HelloController"])
         end
       end
 
       context "without a log_weasel_id" do
         let(:config) do
-          {"class" => "EchoJob", "args" => ["delayed hello from HelloController"]}
+          {"class" => "EchoJob", "args" => ["Hello from HelloController"]}
         end
 
         it "doesn't modify args" do
           Resque::Scheduler.enqueue(config)
-          expect(config["args"]).to eq(["delayed hello from HelloController"])
+          expect(config["args"]).to eq(["Hello from HelloController"])
         end
       end
     end
 
     context "when args is not an Array" do
       let(:config) do
-        {"class" => "EchoJob", "args" => "delayed hello from HelloController"}
+        {"class" => "EchoJob", "args" => "Hello from HelloController"}
       end
 
       it "sets the current Transaction ID to nil" do
@@ -51,7 +56,7 @@ describe StitchFix::LogWeasel::ResqueScheduler do
 
       it "doesn't modify args" do
         Resque::Scheduler.enqueue(config)
-        expect(config["args"]).to eq("delayed hello from HelloController")
+        expect(config["args"]).to eq("Hello from HelloController")
       end
     end
   end
