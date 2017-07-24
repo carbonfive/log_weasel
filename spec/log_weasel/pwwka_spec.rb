@@ -16,11 +16,15 @@ describe StitchFix::LogWeasel::Pwwka do
 
   let(:pwwka_client) { MockPwwkaTransmitter }
 
-  it "adds transaction id to logf" do
-    expect(pwwka_client).to receive(:logf_without_transaction_id) do |format, _|
-      expect(format.scan(/#{transaction_id}/)).not_to be_empty
+  context "Logging" do
+    describe "logf_with_transaction_id" do
+      it "adds transaction id to logf" do
+        expect(pwwka_client).to receive(:logf_without_transaction_id) do |format, _|
+          expect(format.scan(/#{transaction_id}/)).not_to be_empty
+        end
+        pwwka_client.logf("Transmitting message %{routing_key} -> %{payload}", {foo: "bar"})
+      end
     end
-    pwwka_client.logf("Transmitting message %{routing_key} -> %{payload}", {foo: "bar"})
   end
 
   describe ".enhance_message_handler" do
@@ -47,6 +51,25 @@ describe StitchFix::LogWeasel::Pwwka do
       it "does not set the Log Weasel Transaction ID" do
         expect(StitchFix::LogWeasel::Transaction).to_not receive(:id=)
         FakeHandler.handle!(delivery_info, properties, payload)
+      end
+    end
+  end
+
+  context "PublishOptions" do
+    describe "to_h_with_correlation_id" do
+      context "given a Hash of options" do
+        let(:options) { {routing_key: "key", type: "type", headers: ""} }
+        let(:publish_options) { Pwwka::PublishOptions.new(options) }
+
+        it "calls to_h_without_correlation_id" do
+          expect(publish_options).to receive(:to_h_without_correlation_id).and_return(options)
+          publish_options.to_h
+        end
+
+        it "adds correlation_id" do
+          allow(publish_options).to receive(:to_h_without_correlation_id).and_return(options)
+          expect(publish_options.to_h[:correlation_id]).to eq("FOO-PWWKA-123")
+        end
       end
     end
   end
