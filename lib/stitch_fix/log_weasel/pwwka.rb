@@ -6,6 +6,7 @@ module StitchFix
       ::Pwwka::PublishOptions.send(:include, LogWeasel::Pwwka::PublishOptions)
     end
 
+    # This is called from tasks.rb in message_handler:before_receive
     def self.enhance_message_handler(klass)
       klass.define_singleton_method(:handle_with_log_weasel) do |delivery_info, properties, payload|
         LogWeasel::Transaction.id = properties[:correlation_id] if properties[:correlation_id]
