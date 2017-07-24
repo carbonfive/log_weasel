@@ -2,7 +2,7 @@
 
 require 'pwwka/tasks'
 require 'resque/tasks'
-require 'resque-scheduler'
+require 'resque/scheduler/tasks'
 
 namespace :resque do
   desc "Adds Log Weasel setup to resque:scheduler setup task"
