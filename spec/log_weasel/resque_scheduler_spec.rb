@@ -62,10 +62,6 @@ describe StitchFix::LogWeasel::ResqueScheduler do
   end
 
   describe "Env" do
-    before(:all) do
-      ::Resque::Scheduler::Env.send(:include, StitchFix::LogWeasel::ResqueScheduler::Env)
-    end
-
     describe "#setup" do
       it "calls setup_without_log_weasel" do
         expect_any_instance_of(Resque::Scheduler::Env).to receive(:setup_without_log_weasel)
@@ -81,7 +77,6 @@ describe StitchFix::LogWeasel::ResqueScheduler do
 
   describe "DelayingExtensions" do
     before do
-      ::Resque::Scheduler::DelayingExtensions.send(:include, StitchFix::LogWeasel::ResqueScheduler::DelayingExtensions)
       expect(StitchFix::LogWeasel::Transaction).to receive(:id).and_return("12345")
     end
 

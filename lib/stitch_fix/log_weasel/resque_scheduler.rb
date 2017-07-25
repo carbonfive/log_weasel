@@ -8,10 +8,8 @@ module StitchFix
     end
 
     def self.setup
-      unless defined?(::Rails) && ::Rails.env.test?
-        ::Resque::Scheduler::DelayingExtensions.send(:include, LogWeasel::ResqueScheduler::DelayingExtensions)
-        ::Resque::Scheduler::Env.send(:include, LogWeasel::ResqueScheduler::Env)
-      end
+      ::Resque::Scheduler::DelayingExtensions.send(:include, LogWeasel::ResqueScheduler::DelayingExtensions)
+      ::Resque::Scheduler::Env.send(:include, LogWeasel::ResqueScheduler::Env)
       true
     end
 
@@ -20,7 +18,7 @@ module StitchFix
       def setup_with_log_weasel
         puts "initializing Log Weasel"
         key = defined?(::Rails::Railtie) ? StitchFix::LogWeasel::Railtie.app_name.upcase : nil
-        key ? "#{key}-RESQUE-SCHED" : "RESQUE-SCHED"
+        key ? "#{key}-RESQUE" : "RESQUE"
         StitchFix::LogWeasel.configure { |config| config.key = key }
         setup_without_log_weasel
       end
