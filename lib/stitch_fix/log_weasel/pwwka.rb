@@ -2,8 +2,13 @@ module StitchFix
   module LogWeasel::Pwwka
 
     def self.initialize!
+      @pwwka ||= setup
+    end
+
+    def self.setup
       ::Pwwka::Logging.send(:include, LogWeasel::Pwwka::Logging)
       ::Pwwka::PublishOptions.send(:include, LogWeasel::Pwwka::PublishOptions)
+      true
     end
 
     # This is called from tasks.rb in message_handler:before_receive

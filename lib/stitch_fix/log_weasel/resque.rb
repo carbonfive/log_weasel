@@ -1,7 +1,11 @@
 module StitchFix
   module LogWeasel::Resque
 
-    def self.initialize!(options = {})
+    def self.initialize!
+      @@resque ||= setup
+    end
+
+    def self.setup
       ::Resque::Worker.send(:include, LogWeasel::Resque::Worker)
       ::Resque::Job.send(:include, LogWeasel::Resque::Job)
       ::Resque.extend(LogWeasel::Resque::ClassMethods)
@@ -15,6 +19,7 @@ module StitchFix
       ::Resque.before_push do |queue, item|
         LogWeasel::Resque::Callbacks.before_push queue, item, key
       end
+      true
     end
 
     module Callbacks

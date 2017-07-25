@@ -3,11 +3,16 @@ require 'resque/scheduler/env'
 module StitchFix
   module LogWeasel::ResqueScheduler
 
-    def self.initialize!(options = {})
+    def self.initialize!
+      @@resque_scheduler ||= setup
+    end
+
+    def self.setup
       unless defined?(::Rails) && ::Rails.env.test?
         ::Resque::Scheduler::DelayingExtensions.send(:include, LogWeasel::ResqueScheduler::DelayingExtensions)
         ::Resque::Scheduler::Env.send(:include, LogWeasel::ResqueScheduler::Env)
       end
+      true
     end
 
     module Env
