@@ -62,10 +62,16 @@ describe StitchFix::LogWeasel::ResqueScheduler do
   end
 
   describe "Env" do
-    before do
+    before(:all) do
       ::Resque::Scheduler::Env.send(:include, StitchFix::LogWeasel::ResqueScheduler::Env)
     end
+
     describe "#setup" do
+      it "calls setup_without_log_weasel" do
+        expect_any_instance_of(Resque::Scheduler::Env).to receive(:setup_without_log_weasel)
+        Resque::Scheduler::Env.new({}).setup
+      end
+
       it "instruments resque-scheduler with Log Weasel" do
         expect(StitchFix::LogWeasel).to receive(:configure)
         Resque::Scheduler::Env.new({}).setup

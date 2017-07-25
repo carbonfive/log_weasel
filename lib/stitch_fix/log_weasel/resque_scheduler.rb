@@ -13,13 +13,11 @@ module StitchFix
     module Env
       # To instrument resque:scheduler rake task with Log Weasel
       def setup_with_log_weasel
-        setup_without_log_weasel
-
         puts "initializing Log Weasel"
-        require "stitch_fix/log_weasel"
         key = defined?(::Rails::Railtie) ? StitchFix::LogWeasel::Railtie.app_name.upcase : nil
-        key ? "#{key}-RESQUE" : "RESQUE"
+        key ? "#{key}-RESQUE-SCHED" : "RESQUE-SCHED"
         StitchFix::LogWeasel.configure { |config| config.key = key }
+        setup_without_log_weasel
       end
 
       def self.included(base)
