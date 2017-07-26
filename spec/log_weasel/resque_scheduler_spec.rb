@@ -77,7 +77,7 @@ describe StitchFix::LogWeasel::ResqueScheduler do
 
   describe "DelayingExtensions" do
     before do
-      expect(StitchFix::LogWeasel::Transaction).to receive(:id).and_return("12345")
+      allow(StitchFix::LogWeasel::Transaction).to receive(:id).and_return("12345")
     end
 
     describe "#job_to_hash_with_queue_and_lid" do
@@ -86,11 +86,26 @@ describe StitchFix::LogWeasel::ResqueScheduler do
         let(:klass) { "SomeJob" }
         let(:args) { ["hello"] }
 
-        it "adds the Log Weasel transaction ID to args" do
-          result = Resque.job_to_hash_with_queue(queue, klass, args)
-          expect(result[:queue]).to eq(queue)
-          expect(result[:class]).to eq(klass)
-          expect(result[:args]).to include({"log_weasel_id"=>"12345"})
+        context "in test mode" do
+          it "does not add the Log Weasel transaction ID to args" do
+            result = Resque.job_to_hash_with_queue(queue, klass, args)
+            expect(result[:queue]).to eq(queue)
+            expect(result[:class]).to eq(klass)
+            expect(result[:args]).not_to include({"log_weasel_id"=>"12345"})
+          end
+        end
+
+        context "in non-test mode" do
+          before do
+            allow(Rails).to receive(:env).and_return(double(test?: false))
+          end
+
+          it "adds the Log Weasel transaction ID to args" do
+            result = Resque.job_to_hash_with_queue(queue, klass, args)
+            expect(result[:queue]).to eq(queue)
+            expect(result[:class]).to eq(klass)
+            expect(result[:args]).to include({"log_weasel_id"=>"12345"})
+          end
         end
       end
     end
