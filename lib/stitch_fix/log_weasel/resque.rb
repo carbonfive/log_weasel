@@ -32,6 +32,18 @@ module StitchFix
       end
 
       def self.before_push(_queue, item, key)
+        # Strip out log_weasel_id, if present
+        puts "in before_push"
+        if item[:args].is_a?(Array)
+          log_weasel_payload = item[:args].detect { |arg| arg.is_a?(Hash) && arg.keys.include?("log_weasel_id") }
+          if log_weasel_payload
+            puts "A log_weasel_id was found in the job payload. Removing it."
+            item[:args] = item[:args] - [log_weasel_payload]
+          else
+            puts "No log_weasel_id present in args"
+          end
+        end
+
         item['context'] = {'log_weasel_id' => (LogWeasel::Transaction.id || LogWeasel::Transaction.create(key))}
       end
     end
