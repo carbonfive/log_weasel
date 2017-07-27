@@ -30,6 +30,23 @@ describe StitchFix::LogWeasel::ResqueScheduler do
           Resque::Scheduler.enqueue(config)
           expect(config["args"]).to eq(["Hello from HelloController"])
         end
+
+        context "when the value of log_weasel_id is null" do
+          let(:config) do
+            {"class"=>"EchoJob", "args"=>["Hello from HelloController", {"log_weasel_id" => nil}]}
+          end
+
+          it "sets the current Transaction ID to it" do
+            expect(StitchFix::LogWeasel::Transaction).to receive(:id=).with(nil)
+            Resque::Scheduler.enqueue(config)
+          end
+
+          it "removes it" do
+            expect(config["args"]).to eq(["Hello from HelloController", {"log_weasel_id" => nil}])
+            Resque::Scheduler.enqueue(config)
+            expect(config["args"]).to eq(["Hello from HelloController"])
+          end
+        end
       end
 
       context "without a log_weasel_id" do

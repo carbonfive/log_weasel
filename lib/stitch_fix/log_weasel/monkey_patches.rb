@@ -11,7 +11,7 @@ module Resque
 
     def self.setup_log_weasel_transaction_id(config)
       if config["args"].is_a?(Array)
-        log_weasel_payload = config["args"].detect { |arg| arg.is_a?(Hash) && arg["log_weasel_id"] }
+        log_weasel_payload = config["args"].detect { |arg| arg.is_a?(Hash) && arg.keys.include?("log_weasel_id") }
         if log_weasel_payload
           puts "A log_weasel_id was found in the job payload. Setting the current Transaction id to it."
           StitchFix::LogWeasel::Transaction.id = log_weasel_payload["log_weasel_id"]
