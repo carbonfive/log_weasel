@@ -33,7 +33,7 @@ module StitchFix
       # This adds the Log Weasel txn ID to the delayed/scheduled
       # Resque job payloads, except in Rails test env.
       def job_to_hash_with_queue_and_lid(queue, klass, args)
-        unless defined?(::Rails) && ::Rails.env.test?
+        unless LogWeasel.config.disable_delayed_job_tracing?
           args << {"log_weasel_id" => LogWeasel::Transaction.id}
         end
         job_to_hash_with_queue_without_lid(queue, klass, args)

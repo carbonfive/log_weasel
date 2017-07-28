@@ -123,6 +123,19 @@ describe StitchFix::LogWeasel::ResqueScheduler do
             expect(result[:class]).to eq(klass)
             expect(result[:args]).to include({"log_weasel_id"=>"12345"})
           end
+
+          context "when disable_delayed_job_tracing is true" do
+            before do
+              StitchFix::LogWeasel.config.disable_delayed_job_tracing = true
+            end
+
+            it "does not add the Log Weasel transaction ID to args" do
+              result = Resque.job_to_hash_with_queue(queue, klass, args)
+              expect(result[:queue]).to eq(queue)
+              expect(result[:class]).to eq(klass)
+              expect(result[:args]).not_to include({"log_weasel_id"=>"12345"})
+            end
+          end
         end
       end
     end
