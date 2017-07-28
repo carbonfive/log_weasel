@@ -32,15 +32,14 @@ module StitchFix
       end
 
       def self.before_push(_queue, item, key)
-        # Strip out log_weasel_id, if present
-        puts "in before_push"
+        # Strip out log_weasel_id, if it is present.
+        # This is possible if a delayed job (with a log_weasel_id appended to the job arguments)
+        # fails, and is later retried from Resque web.
         if item[:args].is_a?(Array)
           log_weasel_payload = item[:args].detect { |arg| arg.is_a?(Hash) && arg.keys.include?("log_weasel_id") }
           if log_weasel_payload
-            puts "A log_weasel_id was found in the job payload. Removing it."
+            LogWeasel::Transaction.id = log_weasel_payload["log_weasel_id"]
             item[:args] = item[:args] - [log_weasel_payload]
-          else
-            puts "No log_weasel_id present in args"
           end
         end
 

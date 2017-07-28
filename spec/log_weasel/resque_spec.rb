@@ -40,4 +40,46 @@ describe StitchFix::LogWeasel::Resque do
       end
     end
   end
+
+  describe ".before_push" do
+    context "when a log_weasel_id is present in the job args" do
+      let(:item) { {args: ["foo", {"log_weasel_id" => "blah"}]}}
+
+      it "sets the LogWeasel::Transaction.id" do
+        expect(StitchFix::LogWeasel::Transaction).to receive(:id=).with("blah")
+        StitchFix::LogWeasel::Resque::Callbacks.before_push nil, item, "KEY"
+      end
+
+      it "removes it and sets context" do
+        StitchFix::LogWeasel::Resque::Callbacks.before_push nil, item, "KEY"
+        expect(item[:args]).to eq(["foo"])
+        expect(item["context"].keys).to include("log_weasel_id")
+      end
+    end
+
+    context "when a log_weasel_id key only is present in the job args" do
+      let(:item) { {args: ["foo", {"log_weasel_id" => nil}]}}
+
+      it "sets the LogWeasel::Transaction.id" do
+        expect(StitchFix::LogWeasel::Transaction).to receive(:id=).with(nil)
+        StitchFix::LogWeasel::Resque::Callbacks.before_push nil, item, "KEY"
+      end
+
+      it "removes it and sets context" do
+        StitchFix::LogWeasel::Resque::Callbacks.before_push nil, item, "KEY"
+        expect(item[:args]).to eq(["foo"])
+        expect(item["context"].keys).to include("log_weasel_id")
+      end
+    end
+
+    context "when a log_weasel_id is NOT present in the job args" do
+      let(:item) { {args: ["foo"]}}
+
+      it "only sets the context" do
+        StitchFix::LogWeasel::Resque::Callbacks.before_push nil, item, "KEY"
+        expect(item[:args]).to eq(["foo"])
+        expect(item["context"].keys).to include("log_weasel_id")
+      end
+    end
+  end
 end
