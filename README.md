@@ -48,12 +48,19 @@ Load and configure Log Weasel with:
 <pre>
 LogWeasel.configure do |config|
   config.key = "YOUR_APP"
+  config.disable_delayed_job_tracing = false
 end
 </pre>
 
-<code>config.key</code> is a string that will be included in your transaction IDs and is particularly
-useful in an environment where a unit of work may span multiple applications. It is optional but you must call
-<code>LogWeasel.configure</code>.
+<code>config.key</code>  (default is the Rails `app_name`)  
+A string that will be included in your transaction IDs and is particularly
+useful in an environment where a unit of work may span multiple applications.  
+
+<code>config.disable_delayed_job_tracing</code> (default is `false`)  
+A boolean that disables Log Weasel appending a `log_weasel_id` parameter in 
+the payloads of delayed Resque jobs. The default is `false`. 
+ 
+Setting these configuration options are optional, but you must call <code>LogWeasel.configure</code>.
 
 ### Rack
 
