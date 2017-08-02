@@ -20,18 +20,18 @@ Use bundler to install it:
 bundle install
 </pre>
 
-## Rails 3
+## Rails
 
-For Rails 3, we provide a Railtie that automatically configures and loads Log Weasel.
+For Rails projects, we provide a Railtie that automatically configures and loads Log Weasel.
 
-To see Log Weasel transaction IDs in your Rails logs either use the BufferedLogger provided or
+To see Log Weasel transaction IDs in your Rails logs either use the Logger provided or
 customize the formatting of your logger to include <code>LogWeasel::Transaction.id</code>.
 
 <pre>
 YourApp::Application.configure do
   config.log_weasel.key = 'YOUR_APP'    # Optional. Defaults to Rails application name.
 
-  logger = LogWeasel::BufferedLogger.new "#{Rails.root}/log/#{Rails.env}.log"
+  logger = LogWeasel::Logger.new "#{Rails.root}/log/#{Rails.env}.log"
   config.logger                   = logger
   config.action_controller.logger = logger
   config.active_record.logger     = logger
@@ -48,12 +48,19 @@ Load and configure Log Weasel with:
 <pre>
 LogWeasel.configure do |config|
   config.key = "YOUR_APP"
+  config.disable_delayed_job_tracing = false
 end
 </pre>
 
-<code>config.key</code> is a string that will be included in your transaction IDs and is particularly
-useful in an environment where a unit of work may span multiple applications. It is optional but you must call
-<code>LogWeasel.configure</code>.
+<code>config.key</code>  (default is the Rails `app_name`)  
+A string that will be included in your transaction IDs and is particularly
+useful in an environment where a unit of work may span multiple applications.  
+
+<code>config.disable_delayed_job_tracing</code> (default is `false`)  
+A boolean that disables Log Weasel appending a `log_weasel_id` parameter in 
+the payloads of delayed Resque jobs. The default is `false`. 
+ 
+Setting these configuration options are optional, but you must call <code>LogWeasel.configure</code>.
 
 ### Rack
 
