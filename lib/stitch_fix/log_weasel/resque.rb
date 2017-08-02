@@ -1,7 +1,11 @@
 module StitchFix
   module LogWeasel::Resque
 
-    def self.initialize!(options = {})
+    def self.initialize!
+      @@resque ||= setup
+    end
+
+    def self.setup
       ::Resque::Worker.send(:include, LogWeasel::Resque::Worker)
       ::Resque::Job.send(:include, LogWeasel::Resque::Job)
       ::Resque.extend(LogWeasel::Resque::ClassMethods)
@@ -15,6 +19,7 @@ module StitchFix
       ::Resque.before_push do |queue, item|
         LogWeasel::Resque::Callbacks.before_push queue, item, key
       end
+      true
     end
 
     module Callbacks
@@ -26,7 +31,18 @@ module StitchFix
         end
       end
 
-      def self.before_push(queue, item, key)
+      def self.before_push(_queue, item, key)
+        # Strip out log_weasel_id, if it is present.
+        # This is possible if a delayed job (with a log_weasel_id appended to the job arguments)
+        # fails, and is later retried from Resque web.
+        if item[:args].is_a?(Array)
+          log_weasel_payload = item[:args].detect { |arg| arg.is_a?(Hash) && arg.keys.include?("log_weasel_id") }
+          if log_weasel_payload
+            LogWeasel::Transaction.id = log_weasel_payload["log_weasel_id"]
+            item[:args] = item[:args] - [log_weasel_payload]
+          end
+        end
+
         item['context'] = {'log_weasel_id' => (LogWeasel::Transaction.id || LogWeasel::Transaction.create(key))}
       end
     end

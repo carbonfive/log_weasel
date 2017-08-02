@@ -19,6 +19,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency('pwwka')
   s.add_development_dependency('rake')
   s.add_development_dependency('resque')
+  s.add_development_dependency('resque-scheduler')
   s.add_development_dependency('rspec')
   s.add_development_dependency('rspec_junit_formatter')
   s.add_development_dependency('stitchfix-y')
