@@ -1,5 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
-
+require 'stitch_fix/log_weasel/resque_scheduler'
+require 'stitch_fix/log_weasel/monkey_patches'
 
 describe StitchFix::LogWeasel::ResqueScheduler do
 
