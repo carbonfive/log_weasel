@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-rvm --create use "ruby-1.9.2@log_weasel"

@@ -1,53 +1,53 @@
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
-require 'active_support'
+require File.expand_path(File.dirname(__FILE__) + "/../spec_helper")
+require "active_support"
 
-describe LogWeasel::Transaction do
+describe StitchFix::LogWeasel::Transaction do
 
   describe ".id" do
-
-    it "is nil if not created" do
-      LogWeasel::Transaction.id.should be_nil
+    context "if not set" do
+      it "is nil" do
+        expect(StitchFix::LogWeasel::Transaction.id).to be_nil
+      end
     end
-
   end
 
   describe ".id=" do
     before do
-      LogWeasel::Transaction.id = "1234"
+      StitchFix::LogWeasel::Transaction.id = "1234"
     end
 
     it "sets the id" do
-      LogWeasel::Transaction.id.should == "1234"
+      expect(StitchFix::LogWeasel::Transaction.id).to eq "1234"
     end
 
   end
 
   describe ".create" do
     before do
-      SecureRandom.stubs(:hex).returns('94b2')
+      allow(SecureRandom).to receive(:hex).and_return("94b2")
     end
 
-    it 'creates a transaction id with no key' do
-      id = LogWeasel::Transaction.create
-      id.should == '94b2'
+    it "creates a transaction id with no key" do
+      id = StitchFix::LogWeasel::Transaction.create
+      expect(id).to eq '94b2'
     end
 
-    it 'creates a transaction id with a key' do
-      id = LogWeasel::Transaction.create 'KEY'
-      id.should == 'KEY-94b2'
-      LogWeasel::Transaction.id.should == id
+    it "creates a transaction id with a key" do
+      id = StitchFix::LogWeasel::Transaction.create "KEY"
+      expect(id).to eq "KEY-94b2"
+      expect(StitchFix::LogWeasel::Transaction.id).to eq id
     end
 
   end
 
   describe ".destroy" do
     before do
-      LogWeasel::Transaction.create
+      StitchFix::LogWeasel::Transaction.create
     end
 
     it "removes transaction id" do
-      LogWeasel::Transaction.destroy
-      LogWeasel::Transaction.id.should be_nil
+      StitchFix::LogWeasel::Transaction.destroy
+      expect(StitchFix::LogWeasel::Transaction.id).to be_nil
     end
   end
 end
