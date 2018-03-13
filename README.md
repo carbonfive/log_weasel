@@ -11,7 +11,7 @@ files across many applications and application instances.
 Add log_weasel to your Gemfile:
 
 <pre>
-gem 'log_weasel'
+gem 'stitchfix-log_weasel'
 </pre>
 
 Use bundler to install it:
@@ -31,7 +31,7 @@ customize the formatting of your logger to include <code>LogWeasel::Transaction.
 YourApp::Application.configure do
   config.log_weasel.key = 'YOUR_APP'    # Optional. Defaults to Rails application name.
 
-  logger = LogWeasel::Logger.new "#{Rails.root}/log/#{Rails.env}.log"
+  logger = StitchFix::LogWeasel::Logger.new "#{Rails.root}/log/#{Rails.env}.log"
   config.logger                   = logger
   config.action_controller.logger = logger
   config.active_record.logger     = logger
