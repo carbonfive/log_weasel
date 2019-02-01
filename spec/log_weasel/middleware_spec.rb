@@ -15,8 +15,17 @@ describe StitchFix::LogWeasel::Middleware do
 
   describe ".call" do
     context "given an env" do
-      context "when an HTTP_X_REQUEST_ID header is present" do
-        let(:env) { {"HTTP_X_REQUEST_ID" => "1234"} }
+      context "when an StitchFix::LogWeasel::Middleware::CORRELATION_ID_KEY header is present" do
+        let(:env) { {StitchFix::LogWeasel::Middleware::CORRELATION_ID_KEY => "1234"} }
+
+        it "sets LogWeasel::Transation.id to the X-Correlation-Id value" do
+          expect(StitchFix::LogWeasel::Transaction).to receive(:id=).with("1234")
+          StitchFix::LogWeasel::Middleware.new(app).call(env)
+        end
+      end
+
+      context "when an StitchFix::LogWeasel::Middleware::REQUEST_ID_KEY header is present" do
+        let(:env) { {StitchFix::LogWeasel::Middleware::REQUEST_ID_KEY => "1234"} }
 
         it "sets LogWeasel::Transation.id to the X-Request-Id value" do
           expect(StitchFix::LogWeasel::Transaction).to receive(:id=).with("1234")
@@ -24,7 +33,19 @@ describe StitchFix::LogWeasel::Middleware do
         end
       end
 
-      context "when an HTTP_X_REQUEST_ID header is NOT present" do
+      context "when both REQUEST_ID_KEY and CORRELATION_ID_KEY headers set present" do
+        let(:env) {
+          {StitchFix::LogWeasel::Middleware::CORRELATION_ID_KEY => "1234",
+           StitchFix::LogWeasel::Middleware::REQUEST_ID_KEY => "5678"}
+        }
+
+        it "sets LogWeasel::Transation.id to the X-Request-Id value" do
+          expect(StitchFix::LogWeasel::Transaction).to receive(:id=).with("5678")
+          StitchFix::LogWeasel::Middleware.new(app).call(env)
+        end
+      end
+
+      context "when an StitchFix::LogWeasel::Middleware::CORRELATION_ID_KEY header is NOT present" do
         let(:env) { {} }
 
         before do
@@ -36,9 +57,14 @@ describe StitchFix::LogWeasel::Middleware do
           StitchFix::LogWeasel::Middleware.new(app).call(env)
         end
 
-        it "adds a HTTP_X_REQUEST_ID header" do
-          expect(StitchFix::LogWeasel::Transaction).to receive(:create).with("#{StitchFix::LogWeasel.config.key}-WEB")
-          expect(env).to receive(:[]=).with("HTTP_X_REQUEST_ID", "1234")
+        it "adds a StitchFix::LogWeasel::Middleware::CORRELATION_ID_KEY header" do
+          expect(StitchFix::LogWeasel::Transaction).to receive(:create)
+            .with("#{StitchFix::LogWeasel.config.key}-WEB")
+          expect(env).to receive(:[]=)
+            .with(StitchFix::LogWeasel::Middleware::CORRELATION_ID_KEY, "1234")
+          expect(env).to receive(:[]=)
+            .with(StitchFix::LogWeasel::Middleware::REQUEST_ID_KEY, "1234")
+
           StitchFix::LogWeasel::Middleware.new(app).call(env)
         end
       end

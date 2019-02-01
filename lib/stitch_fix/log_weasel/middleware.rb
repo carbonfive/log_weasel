@@ -1,6 +1,10 @@
+# frozen_string_literal: true
+
 module StitchFix
   class LogWeasel::Middleware
     KEY_HEADER = 'X_LOGWEASEL_KEY'
+    CORRELATION_ID_KEY = "HTTP_X_CORRELATION_ID"
+    REQUEST_ID_KEY = "HTTP_X_REQUEST_ID"
 
     def initialize(app, options = {})
       @app = app
@@ -10,14 +14,17 @@ module StitchFix
     # Future: Maybe add X-Amzn-Trace-Id request header for tracing through load balancer
     # (http://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-request-tracing.html)
     def call(env)
-      x_request_id = env.fetch("HTTP_X_REQUEST_ID", nil)
+      x_correlation_id = env.fetch(REQUEST_ID_KEY,
+                                   env.fetch(CORRELATION_ID_KEY,
+                                             nil))
 
-      if x_request_id
-        LogWeasel::Transaction.id = x_request_id
+      if x_correlation_id
+        LogWeasel::Transaction.id = x_correlation_id
       else
         log_weasel_key = env.fetch("HTTP_#{KEY_HEADER}", @key)
         LogWeasel::Transaction.create(log_weasel_key)
-        env["HTTP_X_REQUEST_ID"] = LogWeasel::Transaction.id
+        env[CORRELATION_ID_KEY] = LogWeasel::Transaction.id
+        env[REQUEST_ID_KEY] = LogWeasel::Transaction.id
       end
       @app.call(env)
     ensure
