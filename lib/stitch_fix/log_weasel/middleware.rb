@@ -14,9 +14,7 @@ module StitchFix
     # Future: Maybe add X-Amzn-Trace-Id request header for tracing through load balancer
     # (http://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-request-tracing.html)
     def call(env)
-      x_correlation_id = env.fetch(REQUEST_ID_KEY,
-                                   env.fetch(CORRELATION_ID_KEY,
-                                             nil))
+      x_correlation_id = env.fetch(REQUEST_ID_KEY, nil) || env.fetch(CORRELATION_ID_KEY, nil)
 
       if x_correlation_id
         LogWeasel::Transaction.id = x_correlation_id

@@ -33,7 +33,7 @@ describe StitchFix::LogWeasel::Middleware do
         end
       end
 
-      context "when both REQUEST_ID_KEY and CORRELATION_ID_KEY headers set present" do
+      context "when both REQUEST_ID_KEY and CORRELATION_ID_KEY headers are present" do
         let(:env) {
           {StitchFix::LogWeasel::Middleware::CORRELATION_ID_KEY => "1234",
            StitchFix::LogWeasel::Middleware::REQUEST_ID_KEY => "5678"}
@@ -45,7 +45,7 @@ describe StitchFix::LogWeasel::Middleware do
         end
       end
 
-      context "when an StitchFix::LogWeasel::Middleware::CORRELATION_ID_KEY header is NOT present" do
+      context "when neither CORRELATION_ID_KEY nor REQUEST_ID_KEY header is present" do
         let(:env) { {} }
 
         before do
