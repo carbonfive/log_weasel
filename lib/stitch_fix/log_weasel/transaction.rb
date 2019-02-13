@@ -1,15 +1,11 @@
-begin
-  require 'securerandom'
-rescue
-  require 'active_support/secure_random'
-end
+require "ulid"
 
 module StitchFix
   module LogWeasel
     module Transaction
 
       def self.create(key = nil)
-        Thread.current[:log_weasel_id] = "#{key ? "#{key}-" : ""}#{SecureRandom.hex(10)}"
+        Thread.current[:log_weasel_id] = "#{ULID.generate}#{key ? "-#{key}" : ""}"
       end
 
       def self.destroy

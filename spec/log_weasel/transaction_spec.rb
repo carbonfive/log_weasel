@@ -23,19 +23,20 @@ describe StitchFix::LogWeasel::Transaction do
   end
 
   describe ".create" do
-    before do
-      allow(SecureRandom).to receive(:hex).and_return("94b2")
-    end
-
-    it "creates a transaction id with no key" do
+    let(:regex) { /(?:[A-Z2-7]{8})*(?:[A-Z2-7]{2}={6}|[A-Z2-7]{4}={4}|[A-Z2-7]{5}={3}|[A-Z2-7]{7}=)?/ }
+    it "creates a transaction id with no key prefix" do
       id = StitchFix::LogWeasel::Transaction.create
-      expect(id).to eq '94b2'
+      expect(id).to match(regex)
+      expect(id.size).to eq(26)
     end
 
-    it "creates a transaction id with a key" do
-      id = StitchFix::LogWeasel::Transaction.create "KEY"
-      expect(id).to eq "KEY-94b2"
-      expect(StitchFix::LogWeasel::Transaction.id).to eq id
+    it "creates a transaction id with a key prefix" do
+      key = "KEY"
+      id = StitchFix::LogWeasel::Transaction.create key
+      expect(id).to match(/-KEY/)
+      expect(id).to match(regex)
+      # adds one here to account for hyphen
+      expect(id.size).to eq(26 + 1 + key.size)
     end
 
   end
