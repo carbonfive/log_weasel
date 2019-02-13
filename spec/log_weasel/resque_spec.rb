@@ -12,7 +12,7 @@ describe StitchFix::LogWeasel::Resque do
     expect(Resque).to receive(:encode) do |item|
       expect(item['context']).to_not be_nil
       expect(item['context']).to have_key('log_weasel_id')
-      expect(item['context']['log_weasel_id']).to match(/^COMBUSTION-RESQUE/)
+      expect(item['context']['log_weasel_id']).to match(/-COMBUSTION-RESQUE$/)
     end
     Resque.push('queue', {'args' => [1]})
   end
