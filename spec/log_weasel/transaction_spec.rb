@@ -30,7 +30,7 @@ describe StitchFix::LogWeasel::Transaction do
       expect(id.size).to eq(26)
     end
 
-    it "creates a transaction id with a key prefix" do
+    it "creates a transaction id with a key suffix" do
       key = "KEY"
       id = StitchFix::LogWeasel::Transaction.create key
       expect(id).to match(/-KEY/)
