@@ -20,6 +20,9 @@ Use bundler to install it:
 bundle install
 </pre>
 
+## Stitch Fix
+See [this setup guide](https://github.com/stitchfix/eng-wiki/blob/master/technical-topics/log-weasel-configuration.md) for how to configure Log Weasel for Rails applications at Stitch Fix.
+
 ## Rails
 
 For Rails projects, we provide a Railtie that automatically configures and loads Log Weasel.
