@@ -13,13 +13,13 @@ module Resque
       if config["args"].is_a?(Array)
         log_weasel_payload = config["args"].detect { |arg| arg.is_a?(Hash) && arg.keys.include?("log_weasel_id") }
         if log_weasel_payload
-          puts "A log_weasel_id was found in the job payload. Setting the current Transaction id to it."
+          StitchFix::Logger::LogWriter.debug "A log_weasel_id was found in the job payload. Setting the current Transaction id to it."
           StitchFix::LogWeasel::Transaction.id = log_weasel_payload["log_weasel_id"]
-          puts "Removing the log_weasel_id from the payload."
+          StitchFix::Logger::LogWriter.debug "Removing the log_weasel_id from the payload."
           config["args"] = config["args"] - [log_weasel_payload]
         end
       else
-        puts "Initializing log weasel transaction ID"
+        StitchFix::Logger::LogWriter.debug "Initializing log weasel transaction ID"
         StitchFix::LogWeasel::Transaction.id = nil
       end
     end
