@@ -2,7 +2,11 @@ require 'logger'
 
 module StitchFix
   class LogWeasel::Logger < ::Logger
-    include LoggerSilence if defined?(LoggerSilence)
+    if defined?(ActiveSupport::LoggerSilence)
+      include(ActiveSupport::LoggerSilence)
+    elsif defined?(LoggerSilence)
+      include(LoggerSilence)
+    end
 
     def add(severity, message = nil, progname = nil, &block)
       super(severity, "[#{DateTime.now.strftime('%Y-%m-%d %H:%M:%S')}] #{LogWeasel::Transaction.id} #$$ #{format_severity(severity)} #{message}", progname, &block)
