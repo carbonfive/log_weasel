@@ -15,6 +15,10 @@ module StitchFix
         @disable_delayed_job_tracing ||
           (defined?(Rails) && Rails.env.test?)
       end
+
+      def debug_logging_enabled?
+        @debug || false
+      end
     end
 
     def self.config
