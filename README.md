@@ -33,11 +33,6 @@ customize the formatting of your logger to include <code>LogWeasel::Transaction.
 <pre>
 YourApp::Application.configure do
   config.log_weasel.key = 'YOUR_APP'    # Optional. Defaults to Rails application name.
-
-  logger = StitchFix::LogWeasel::Logger.new "#{Rails.root}/log/#{Rails.env}.log"
-  config.logger                   = logger
-  config.action_controller.logger = logger
-  config.active_record.logger     = logger
 end
 </pre>
 
@@ -52,6 +47,7 @@ Load and configure Log Weasel with:
 LogWeasel.configure do |config|
   config.key = "YOUR_APP"
   config.disable_delayed_job_tracing = false
+  config.debug = !Rails.env.production?
 end
 </pre>
 
@@ -62,6 +58,9 @@ useful in an environment where a unit of work may span multiple applications.
 <code>config.disable_delayed_job_tracing</code> (default is `false`)  
 A boolean that disables Log Weasel appending a `log_weasel_id` parameter in 
 the payloads of delayed Resque jobs. The default is `false`. 
+
+<code>config.debug</code> (default is `false`)  
+A boolean that enables some additional debug logging. The default is `false`. 
  
 Setting these configuration options are optional, but you must call <code>LogWeasel.configure</code>.
 
