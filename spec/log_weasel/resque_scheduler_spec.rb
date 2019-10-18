@@ -4,6 +4,12 @@ require 'stitch_fix/log_weasel/monkey_patches'
 
 describe StitchFix::LogWeasel::ResqueScheduler do
 
+  before do
+    StitchFix::LogWeasel.configure do |config|
+      config.debug = false
+    end
+  end
+
   describe ".enqueue" do
     let(:config) do
       {"class"=>"EchoJob", "args"=>["Hello from HelloController", {"log_weasel_id"=>"FOO-WEB-1234"}]}
@@ -50,6 +56,29 @@ describe StitchFix::LogWeasel::ResqueScheduler do
         end
       end
 
+      context "debug mode" do
+        context "when true" do
+          before do
+            StitchFix::LogWeasel.configure do |config|
+              config.debug = true
+            end
+          end
+
+          it "logs" do
+            expect(Resque::Scheduler).to receive(:puts).with("A log_weasel_id was found in the job payload. Setting the current Transaction id to it.")
+            expect(Resque::Scheduler).to receive(:puts).with("Removing the log_weasel_id from the payload.")
+            Resque::Scheduler.enqueue(config)
+          end
+        end
+
+        context "by default" do
+          it "doesn't log" do
+            expect(Resque::Scheduler).not_to receive(:puts)
+            Resque::Scheduler.enqueue(config)
+          end
+        end
+      end
+
       context "without a log_weasel_id" do
         let(:config) do
           {"class" => "EchoJob", "args" => ["Hello from HelloController"]}
@@ -76,6 +105,19 @@ describe StitchFix::LogWeasel::ResqueScheduler do
         Resque::Scheduler.enqueue(config)
         expect(config["args"]).to eq("Hello from HelloController")
       end
+
+      context "in debug mode" do
+        before do
+          StitchFix::LogWeasel.configure do |config|
+            config.debug = true
+          end
+        end
+
+        it "logs" do
+          expect(Resque::Scheduler).to receive(:puts).with("Initializing log weasel transaction ID")
+          Resque::Scheduler.enqueue(config)
+        end
+      end
     end
   end
 
@@ -89,6 +131,28 @@ describe StitchFix::LogWeasel::ResqueScheduler do
       it "instruments resque-scheduler with Log Weasel" do
         expect(StitchFix::LogWeasel).to receive(:configure)
         Resque::Scheduler::Env.new({}).setup
+      end
+
+      context "debug mode" do
+        context "when true" do
+          before do
+            StitchFix::LogWeasel.configure do |config|
+              config.debug = true
+            end
+          end
+
+          it "logs" do
+            expect_any_instance_of(Resque::Scheduler::Env).to receive(:puts).with("initializing Log Weasel")
+            Resque::Scheduler::Env.new({}).setup
+          end
+        end
+
+        context "by default" do
+          it "doesn't log" do
+            expect_any_instance_of(Resque::Scheduler::Env).not_to receive(:puts)
+            Resque::Scheduler::Env.new({}).setup
+          end
+        end
       end
     end
   end

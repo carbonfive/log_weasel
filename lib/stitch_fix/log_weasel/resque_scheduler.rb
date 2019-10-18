@@ -16,7 +16,7 @@ module StitchFix
     module Env
       # To instrument resque:scheduler rake task with Log Weasel
       def setup_with_log_weasel
-        puts "initializing Log Weasel"
+        puts "initializing Log Weasel" if StitchFix::LogWeasel.config.debug_logging_enabled?
         key = defined?(::Rails::Railtie) ? StitchFix::LogWeasel::Railtie.app_name.upcase : nil
         key ? "#{key}-RESQUE" : "RESQUE"
         StitchFix::LogWeasel.configure { |config| config.key = key }
