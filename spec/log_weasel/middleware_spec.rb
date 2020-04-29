@@ -69,6 +69,53 @@ describe StitchFix::LogWeasel::Middleware do
         end
       end
 
+      context "when the log weasel id is included in the params" do
+        let(:env) do
+          Rack::MockRequest.env_for("something", params: { logweasel_id: 'foo' })
+        end
+
+        context "with the environment variable enabled" do
+          it "sets LogWeasel::Transation.id to the header value" do
+            allow(ENV).to receive(:fetch).with('LOG_WEASEL_FROM_PARAMS', nil).and_return(true)
+
+            env['HTTP_X_REQUEST_ID'] = 'bar'
+
+            expect(StitchFix::LogWeasel::Transaction).to receive(:id=).with("bar")
+
+            StitchFix::LogWeasel::Middleware.new(app).call(env)
+          end
+
+          context "a request without the log weasel headers" do
+            it "sets LogWeasel::Transation.id to the query string parameter value" do
+              allow(ENV).to receive(:fetch).with('LOG_WEASEL_FROM_PARAMS', nil).and_return(true)
+
+              expect(StitchFix::LogWeasel::Transaction).to receive(:id=).with("foo")
+
+              StitchFix::LogWeasel::Middleware.new(app).call(env)
+            end
+          end
+        end
+      end
+
+      context "when the log weasel id is not included in the params" do
+        let(:env) do
+          Rack::MockRequest.env_for("something", params: { something_else: 'foo' })
+        end
+
+        context "with the environment variable enabled" do
+          it "does not set the log weasel id from the params" do
+            allow(ENV).to receive(:fetch).with('LOG_WEASEL_FROM_PARAMS', nil).and_return(true)
+
+            # Let's pretend its a header...
+            env['HTTP_X_REQUEST_ID'] = 'bar'
+
+            expect(StitchFix::LogWeasel::Transaction).to receive(:id=).with("bar")
+
+            StitchFix::LogWeasel::Middleware.new(app).call(env)
+          end
+        end
+      end
+
       context "ensure block" do
         let(:env) { {} }
 

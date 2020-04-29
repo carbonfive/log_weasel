@@ -70,6 +70,10 @@ Log Weasel provides Rack middleware to create and destroy a transaction ID for e
 in a any web framework that supports Rack (Rails, Sinatra,...) by using <code>LogWeasel::Middleware</code> in your middleware
 stack.
 
+### Log Weasel ID From Params
+
+The Log Weasel transaction id can also be passed via query string.  While this should not be necessary for common Stitch Fix engineering use cases, you can include a `logweasel_id` key in the query string and set `LOG_WEASEL_FROM_PARAMS` environment variable in your application via `fixops`.  **Note** this will take precedence over the values passed in the HTTP headers the Log Weasel middleware looks at.
+
 ## Resque
 
 When you configure Log Weasel as described above either in Rails or by explicitly calling <code>LogWeasel.configure</code>,
