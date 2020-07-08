@@ -24,6 +24,15 @@ describe StitchFix::LogWeasel::Middleware do
         end
       end
 
+      context "when an StitchFix::LogWeasel::Middleware::STITCHFIX_REQUEST_ID_KEY header is present" do
+        let(:env) { {StitchFix::LogWeasel::Middleware::STITCHFIX_REQUEST_ID_KEY => "1234"} }
+
+        it "sets LogWeasel::Transation.id to the X-Correlation-Id value" do
+          expect(StitchFix::LogWeasel::Transaction).to receive(:id=).with("1234")
+          StitchFix::LogWeasel::Middleware.new(app).call(env)
+        end
+      end
+
       context "when an StitchFix::LogWeasel::Middleware::REQUEST_ID_KEY header is present" do
         let(:env) { {StitchFix::LogWeasel::Middleware::REQUEST_ID_KEY => "1234"} }
 
