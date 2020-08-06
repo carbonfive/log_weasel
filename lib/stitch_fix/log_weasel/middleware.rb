@@ -7,6 +7,7 @@ module StitchFix
     REQUEST_ID_KEY = "HTTP_X_REQUEST_ID"
     STITCHFIX_REQUEST_ID_KEY = "HTTP_STITCHFIX_REQUEST_ID"
     PARAMS_KEY = "logweasel_id"
+    COOKIE_KEY = "logweasel_cookie_trace"
 
     def initialize(app, options = {})
       @app = app
@@ -19,7 +20,7 @@ module StitchFix
       x_correlation_id = env.fetch(REQUEST_ID_KEY, nil) ||
         env.fetch(CORRELATION_ID_KEY, nil) ||
         env.fetch(STITCHFIX_REQUEST_ID_KEY, nil) ||
-        log_weasel_id_from_params(env)
+        log_weasel_id_from_params_or_cookie(env)
 
       if x_correlation_id
         LogWeasel::Transaction.id = x_correlation_id
@@ -38,11 +39,15 @@ module StitchFix
 
     private
 
-    def log_weasel_id_from_params(env)
-      return unless ENV.fetch('LOG_WEASEL_FROM_PARAMS', nil)
+    def log_weasel_id_from_params_or_cookie(env)
+      return unless ENV.fetch('LOG_WEASEL_FROM_PARAMS', nil) || ENV.fetch('LOG_WEASEL_FROM_COOKIE', nil)
 
       req = Rack::Request.new(env)
-      req.params.fetch(PARAMS_KEY, nil)
+      if ENV.fetch('LOG_WEASEL_FROM_PARAMS', nil)
+        req.params.fetch(PARAMS_KEY, nil)
+      elsif ENV.fetch('LOG_WEASEL_FROM_COOKIE', nil)
+        req.cookies.fetch(COOKIE_KEY, nil)
+      end
     end
   end
 end
