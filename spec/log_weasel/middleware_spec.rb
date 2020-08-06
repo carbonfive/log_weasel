@@ -106,6 +106,36 @@ describe StitchFix::LogWeasel::Middleware do
         end
       end
 
+      context "when the log weasel id is included in the cookies" do
+        let(:env) do
+          Rack::MockRequest.env_for("something", "HTTP_COOKIE" => 'logweasel_cookie_trace=cookietrace;')
+        end
+
+        context "with the environment variable enabled" do
+          it "sets LogWeasel::Transation.id to the header value" do
+            allow(ENV).to receive(:fetch).with('LOG_WEASEL_FROM_PARAMS', nil).and_return(nil)
+            allow(ENV).to receive(:fetch).with('LOG_WEASEL_FROM_COOKIE', nil).and_return(true)
+
+            env['HTTP_X_REQUEST_ID'] = 'bar'
+
+            expect(StitchFix::LogWeasel::Transaction).to receive(:id=).with("bar")
+
+            StitchFix::LogWeasel::Middleware.new(app).call(env)
+          end
+
+          context "a request without the log weasel headers" do
+            it "sets LogWeasel::Transation.id to the cookie value" do
+              allow(ENV).to receive(:fetch).with('LOG_WEASEL_FROM_PARAMS', nil).and_return(nil)
+              allow(ENV).to receive(:fetch).with('LOG_WEASEL_FROM_COOKIE', nil).and_return(true)
+
+              expect(StitchFix::LogWeasel::Transaction).to receive(:id=).with("cookietrace")
+
+              StitchFix::LogWeasel::Middleware.new(app).call(env)
+            end
+          end
+        end
+      end
+
       context "when the log weasel id is not included in the params" do
         let(:env) do
           Rack::MockRequest.env_for("something", params: { something_else: 'foo' })
