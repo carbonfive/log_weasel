@@ -124,7 +124,7 @@ describe StitchFix::LogWeasel::Middleware do
           end
 
           context "a request without the log weasel headers" do
-            it "sets LogWeasel::Transation.id to the query string parameter value" do
+            it "sets LogWeasel::Transation.id to the cookie value" do
               allow(ENV).to receive(:fetch).with('LOG_WEASEL_FROM_PARAMS', nil).and_return(nil)
               allow(ENV).to receive(:fetch).with('LOG_WEASEL_FROM_COOKIE', nil).and_return(true)
 
