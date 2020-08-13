@@ -3,3 +3,6 @@
 pkg/*
 .idea
 Gemfile.lock
+
+node_modules/
+*.log

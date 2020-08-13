@@ -3,7 +3,7 @@ require 'resque-scheduler'
 module Resque
   module Scheduler
     # Example config:
-    # {"class"=>"EchoJob", "args"=>["delayed hello from HelloController", {"log_weasel_id"=>"HELLBLAZER-WEB-27c2d9bb1f3a28474b10"}]}
+    # {"class"=>"EchoJob", "args"=>["delayed hello from HelloController", {"log_weasel_id"=>"BLAZER-WEB-27c2d9bb1f3a28474b10"}]}
     def self.enqueue_with_log_weasel(config)
       setup_log_weasel_transaction_id(config)
       enqueue_without_log_weasel(config)
