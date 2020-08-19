@@ -1,7 +1,7 @@
 {
   "name": "@stitch-fix/log-weasel",
   "description": "Log Weasel Javascript client",
-  "version": "0.0.7",
+  "version": "1.0.0",
   "author": "Stitch Fix",
   "license": "UNLICENSED",
   "main": "index.js",
