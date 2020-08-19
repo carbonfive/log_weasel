@@ -40,6 +40,17 @@ YourApp::Application.configure do
 end
 </pre>
 
+## Javascript
+
+If you have added the optional NPM package, this is how you would use it:
+
+<pre>
+import LogWeasel from "@stitch-fix/log-weasel";
+
+LogWeasel.init('KUFAK_UI') // supply the name of your application
+LogWeasel.generateId() // call this as many times as you need to generate unique trace IDs 
+</pre>
+
 
 ## Other
 
@@ -90,19 +101,6 @@ Start your Resque worker with <code>VERBOSE=1</code> and you'll see transaction 
 If you are using <a href="http://airbrake.io/p">Airbrake</a>, Log Weasel will add the parameter
 <code>log_weasel_id</code> to Airbrake errors so that you can track execution through your application stack that
 resulted in the error. No additional configuration required.
-
-### Javascript
-
-An NPM package is provided that makes it trivial to create Log Weasel trace IDs in Javascript.
-
-Example usage:
-
-<pre>
-import LogWeasel from "@stitch-fix/log-weasel";
-
-LogWeasel.init('CLIENT_HOME_UI') // supply the name of your application
-LogWeasel.generateId() // call this as many times as you need to generate unique trace IDs 
-</pre>
 
 ## Example
 
