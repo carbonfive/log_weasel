@@ -1,10 +1,8 @@
 # Log Weasel
 
-Instrument Rails and Resque with shared transaction IDs to trace execution of a unit of work across
+Instrument Rails and supported 3rd-party libraries (e.g. Resque, Pwwka) with shared transaction IDs to trace execution of a unit of work across
 applications and application instances.
 
-This particularly handy if you're using a system like <a href="http://www.splunk.com">Splunk</a> to manage your log
-files across many applications and application instances.
 
 ## Installation
 
@@ -18,6 +16,12 @@ Use bundler to install it:
 
 <pre>
 bundle install
+</pre>
+
+Or, to use the Log Weasel NPM package, add it:
+
+<pre>
+yarn add @stitch-fix/log-weasel
 </pre>
 
 ## Stitch Fix
@@ -86,6 +90,19 @@ Start your Resque worker with <code>VERBOSE=1</code> and you'll see transaction 
 If you are using <a href="http://airbrake.io/p">Airbrake</a>, Log Weasel will add the parameter
 <code>log_weasel_id</code> to Airbrake errors so that you can track execution through your application stack that
 resulted in the error. No additional configuration required.
+
+### Javascript
+
+An NPM package is provided that makes it trivial to create Log Weasel trace IDs in Javascript.
+
+Example usage:
+
+<pre>
+import LogWeasel from "@stitch-fix/log-weasel";
+
+LogWeasel.init('CLIENT_HOME_UI') // supply the name of your application
+LogWeasel.generateId() // call this as many times as you need to generate unique trace IDs 
+</pre>
 
 ## Example
 

@@ -1,0 +1,45 @@
+{
+  "name": "@stitch-fix/log-weasel",
+  "description": "Log Weasel Javascript client",
+  "version": "0.0.7",
+  "author": "Stitch Fix",
+  "license": "UNLICENSED",
+  "main": "index.js",
+  "repository": "https://github.com/stitchfix/log_weasel",
+  "files": [
+    "index.js",
+    "src/stitch_fix/logWeasel.js"
+  ],
+  "jest": {
+    "testURL": "http://localhost"
+  },
+  "scripts": {
+    "clean": "rm build/app.js",
+    "test": "jest",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "ulid": "^2.3.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.11.1",
+    "@babel/preset-env": "^7.11.0",
+    "@stitch-fix/browserslist-config-stitchfix": "^1.0.0",
+    "@stitch-fix/eslint-config-stitchfix": "^1.0.0",
+    "babel-jest": "^26.3.0",
+    "eslint": "^4.17.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jest": "^21.5.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-react": "^7.4.0",
+    "eslint-plugin-standard": "^4.0.1",
+    "jest": "^25.1.0"
+  },
+  "peerDependencies": {},
+  "browserslist": [
+    "extends @stitch-fix/browserslist-config-stitchfix"
+  ]
+}

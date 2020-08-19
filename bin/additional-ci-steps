@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+# Exit immediately if any command returns a non-zero status.
+set -e
+
+# Install node
+curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
+# Install yarn
+curl -o- -L https://yarnpkg.com/install.sh | bash
+source ~/.bashrc
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+
+# Install npm packages
+yarn install
+
+# Run linter
+yarn lint
+
+# Run JS tests specified in package.json
+yarn test
