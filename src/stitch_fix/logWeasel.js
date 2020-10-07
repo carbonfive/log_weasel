@@ -12,7 +12,7 @@ const LogWeasel = {
   },
 
   generateId: () => {
-    const formattedKey = `${globalKey}-WEB`;
+    const formattedKey = `${globalKey}-JS`;
 
     return `${ulid()}-${formattedKey}`;
   },
