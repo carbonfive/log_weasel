@@ -3,6 +3,7 @@
 pkg/*
 .idea
 Gemfile.lock
+yarn.lock
 
 node_modules/
 *.log
