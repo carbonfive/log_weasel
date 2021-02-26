@@ -19,6 +19,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "constant-case": "^3.0.4",
     "ulid": "^2.3.0"
   },
   "devDependencies": {

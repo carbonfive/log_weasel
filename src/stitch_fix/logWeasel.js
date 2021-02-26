@@ -1,4 +1,5 @@
 import { ulid } from 'ulid';
+import { constantCase } from 'constant-case';
 
 let globalKey;
 
@@ -8,14 +9,10 @@ const LogWeasel = {
       throw new TypeError('LogWeasel.init requires a key argument');
     }
 
-    globalKey = key;
+    globalKey = constantCase(key);
   },
 
-  generateId: () => {
-    const formattedKey = `${globalKey}-JS`;
-
-    return `${ulid()}-${formattedKey}`;
-  },
+  generateId: () => `${ulid()}-${globalKey}-JS`,
 };
 
 export { LogWeasel };
