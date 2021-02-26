@@ -46,9 +46,13 @@ If you have added the optional NPM package, this is how you would use it:
 
 ```js
 import LogWeasel from "@stitch-fix/log-weasel";
+// Get the canonical fixops app name from your app's package.json
+import { name } from '../../package.json';
 
-LogWeasel.init('KUFAK_UI') // supply the name of your application
-LogWeasel.generateId() // call this as many times as you need to generate unique trace IDs 
+LogWeasel.init(name);
+
+// Every call to generateId will create a unique trace ID
+const xRequestId = LogWeasel.generateId();
 ```
 
 ## Other
