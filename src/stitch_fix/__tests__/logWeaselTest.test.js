@@ -1,8 +1,8 @@
 import { LogWeasel } from '../logWeasel';
 
 describe('init', () => {
-  it('needs a key', () => {
-    expect(() => LogWeasel.init()).toThrow();
+  it('throws an error if key is not passed', () => {
+    expect(() => LogWeasel.init()).toThrowErrorMatchingSnapshot();
   });
 });
 
