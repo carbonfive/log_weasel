@@ -36,7 +36,6 @@
     "eslint-plugin-standard": "^4.0.1",
     "jest": "^25.1.0"
   },
-  "peerDependencies": {},
   "browserslist": [
     "extends @stitch-fix/browserslist-config-stitchfix"
   ]
