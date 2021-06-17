@@ -59,7 +59,7 @@ describe StitchFix::LogWeasel::Pwwka do
     describe "to_h_with_correlation_id" do
       context "given a Hash of options" do
         let(:options) { {routing_key: "key", type: "type", headers: ""} }
-        let(:publish_options) { Pwwka::PublishOptions.new(options) }
+        let(:publish_options) { Pwwka::PublishOptions.new(**options) }
 
         it "calls to_h_without_correlation_id" do
           expect(publish_options).to receive(:to_h_without_correlation_id).and_return(options)

@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`init throws an error if key is not passed 1`] = `"LogWeasel.init requires a key argument"`;
