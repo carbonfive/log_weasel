@@ -1,19 +1,12 @@
 import { ulid } from 'ulid';
 import { constantCase } from 'constant-case';
 
-let globalKey;
+const generateId = (key) => {
+  if (typeof key === 'undefined') {
+    throw new TypeError('LogWeasel generateID requires a key argument');
+  }
 
-const LogWeasel = {
-  init: (key) => {
-    if (typeof key === 'undefined') {
-      throw new TypeError('LogWeasel.init requires a key argument');
-    }
-
-    globalKey = constantCase(key);
-  },
-
-  generateId: () => `${ulid()}-${globalKey}-JS`,
+  return `${ulid()}-${constantCase(key)}-JS`;
 };
 
-export { LogWeasel };
-export default LogWeasel;
+export default generateId;

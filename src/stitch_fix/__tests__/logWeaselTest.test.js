@@ -1,25 +1,20 @@
-import { LogWeasel } from '../logWeasel';
+import generateId from '../logWeasel';
 
-describe('init', () => {
-  it('throws an error if key is not passed', () => {
-    expect(() => LogWeasel.init()).toThrowErrorMatchingSnapshot();
-  });
-});
+const appName = 'weasel-gang-ui';
 
 describe('generateId', () => {
-  beforeAll(() => {
-    LogWeasel.init('weasel-gang-service');
+  it('throws an error if key is not passed', () => {
+    expect(() => generateId()).toThrowErrorMatchingSnapshot();
   });
 
   it('returns a Log Weasel ID with a constant case app name', () => {
-    expect(LogWeasel.generateId()).toMatch(/^[0-9A-Z]{26}-WEASEL_GANG_SERVICE-JS$/);
+    expect(generateId(appName)).toMatch(/^[0-9A-Z]{26}-WEASEL_GANG_UI-JS$/);
   });
 
   it('returns a different Log Weasel ID each time it is called', () => {
-    const firstId = LogWeasel.generateId();
-    const secondId = LogWeasel.generateId();
+    const firstId = generateId(appName);
+    const secondId = generateId(appName);
 
     expect(firstId).not.toEqual(secondId);
   });
 });
-
