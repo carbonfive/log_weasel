@@ -187,14 +187,6 @@ and our resque log shows:
 
 Units of work initiated from Resque, for example if using a scheduler like <a href="https://github.com/bvandenbos/resque-scheduler">resque-scheduler</a>, will include 'RESQUE' in the transaction ID to indicate that the work started in Resque.
 
-## Contributing
-
-If you would like to contribute a fix or integrate Log Weasel transaction tracking into another frameworks please fork the code, add the fix or feature in your local project and then send a pull request on github. Please ensure that you include a test which verifies your changes.
-
-## Authors
-
-<a href="http://github.com/asalant">Alon Salant</a>, <a href="http://github.com/brettfishman">Brett Fishman</a>, and Rob Wierzbowski.
-
 ## LICENSE
 
 Copyright (c) 2011 Carbon Five. See LICENSE for details.
