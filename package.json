@@ -1,7 +1,7 @@
 {
   "name": "@stitch-fix/log-weasel",
   "description": "Log Weasel Javascript client",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "author": "Stitch Fix",
   "license": "UNLICENSED",
   "main": "index.js",
@@ -10,9 +10,6 @@
     "index.js",
     "src/stitch_fix/logWeasel.js"
   ],
-  "jest": {
-    "testURL": "http://localhost"
-  },
   "scripts": {
     "clean": "rm build/app.js",
     "test": "jest",
@@ -39,7 +36,6 @@
     "eslint-plugin-standard": "^4.0.1",
     "jest": "^25.1.0"
   },
-  "peerDependencies": {},
   "browserslist": [
     "extends @stitch-fix/browserslist-config-stitchfix"
   ]
