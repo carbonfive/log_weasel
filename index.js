@@ -1,1 +1,1 @@
-export { default } from './src/stitch_fix/logWeasel';
+export { default } from './src/stitch_fix/generateId';
