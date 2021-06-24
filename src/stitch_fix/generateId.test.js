@@ -1,4 +1,4 @@
-import generateId from '../generateId';
+import generateId from './generateId';
 
 const appName = 'weasel-gang-ui';
 
