@@ -8,7 +8,7 @@
   "repository": "https://github.com/stitchfix/log_weasel",
   "files": [
     "index.js",
-    "src/stitch_fix/logWeasel.js"
+    "src/stitch_fix/generateId.js"
   ],
   "scripts": {
     "clean": "rm build/app.js",
