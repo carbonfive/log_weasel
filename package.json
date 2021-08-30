@@ -8,6 +8,7 @@
   "repository": "https://github.com/stitchfix/log_weasel",
   "files": [
     "index.js",
+    "index.d.ts",
     "src/stitch_fix/generateId.js"
   ],
   "scripts": {
@@ -15,6 +16,7 @@
     "test": "jest",
     "lint": "eslint ."
   },
+  "types": "index.d.ts",
   "dependencies": {
     "constant-case": "^3.0.4",
     "ulid": "^2.3.0"
