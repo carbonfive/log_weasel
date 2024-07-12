@@ -1,5 +1,6 @@
 require 'stitch_fix/log_weasel/transaction'
 require 'stitch_fix/log_weasel/logger'
+require 'stitch_fix/log_weasel/log_tag_injection'
 require 'stitch_fix/log_weasel/airbrake'
 require 'stitch_fix/log_weasel/middleware'
 require 'stitch_fix/log_weasel/resque'
