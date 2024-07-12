@@ -151,6 +151,15 @@ and our resque log shows:
 
 Units of work initiated from Resque, for example if using a scheduler like <a href="https://github.com/bvandenbos/resque-scheduler">resque-scheduler</a>, will include 'RESQUE' in the transaction ID to indicate that the work started in Resque.
 
+### Log tagging integration
+
+This gem adds log_weasel_trace_id and trace_origin to logs sent by a `.tagged()`-compatible [Tagged Logger](https://api.rubyonrails.org/classes/ActiveSupport/TaggedLogging.html):
+
+```ruby
+logger.warn("oh no!")
+{"message":"oh no!","level":"warn","log_weasel_trace_id": "<UUID>","trace_origin":"<UUID>"}
+```
+
 ## LICENSE
 
 Copyright (c) 2011 Carbon Five. See LICENSE for details.

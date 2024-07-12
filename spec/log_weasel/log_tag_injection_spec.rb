@@ -2,6 +2,8 @@
 
 require "rack"
 require "logger"
+require "active_support"
+require "active_support/tagged_logging"
 
 # Note: this is NOT going to test every variation of LogWeasel behavior,
 #       but will demonstrate that a LogWeasel id gets passed into the logger
@@ -49,4 +51,43 @@ RSpec.describe StitchFix::LogWeasel::LogTagInjection do
       expect(subject).to eq %{[{"trace_origin"=>"log_weasel_trace_id1", "log_weasel_trace_id"=>"log_weasel_trace_id1"}] info message\n}
     end
   end
+
+  context "when using a non-tagged logger" do
+    let(:logger) { ::Logger.new(log_output) }
+
+    subject(:log_output_json) do
+      Rack::MockRequest.new(app).post("http://example.com", env)
+      log_output.string
+    end
+
+    it "logs the log weasel key and trace id as log_weasel_trace_id" do
+      expect(subject).to match "info message"
+      expect(subject).not_to match "trace_origin"
+    end
+  end
+
+  # context "when disabled" do
+  #   before do
+
+  #     StitchFix::LogWeasel.configure do |config|
+  #       config.disable_log_tagging = true
+  #     end
+  #   end
+
+  #   after do
+  #     StitchFix::LogWeasel.configure do |config|
+  #       config.disable_log_tagging = false
+  #     end
+  #   end
+
+  #   subject(:log_output_json) do
+  #     Rack::MockRequest.new(app).post("http://example.com", env)
+  #     log_output.string
+  #   end
+
+  #   it "logs the log weasel key and trace id as log_weasel_trace_id" do
+  #     expect(subject).to match "info message"
+  #     expect(subject).not_to match "trace_origin"
+  #   end
+  # end
 end

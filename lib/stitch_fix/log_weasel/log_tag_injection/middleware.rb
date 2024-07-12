@@ -8,6 +8,8 @@ module StitchFix
         end
 
         def call(env)
+          return @app.call(env) unless @config&.logger.respond_to?(:tagged)
+
           tags = {
             "trace_origin" => env[::StitchFix::LogWeasel::Middleware::CORRELATION_ID_KEY],
             "log_weasel_trace_id" => env[::StitchFix::LogWeasel::Middleware::REQUEST_ID_KEY]

@@ -10,7 +10,7 @@ require 'stitch_fix/log_weasel/railtie' if defined? ::Rails::Railtie
 module StitchFix
   module LogWeasel
     class Config
-      attr_accessor :key, :disable_delayed_job_tracing, :debug
+      attr_accessor :key, :disable_delayed_job_tracing, :debug, :disable_log_tagging
 
       def disable_delayed_job_tracing?
         @disable_delayed_job_tracing ||
