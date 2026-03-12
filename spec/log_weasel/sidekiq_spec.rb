@@ -1,8 +1,13 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
-require 'sidekiq/testing'
+begin
+  require 'sidekiq'
+rescue => LoadError
+  Rails.logger.warn "Sidekiq not available, tests will fail to run"
+end
+
 
 class TestWorker
-  include Sidekiq::Worker
+  include ::Sidekiq::Worker
 
   def perform
   end
@@ -16,7 +21,7 @@ describe StitchFix::LogWeasel::Sidekiq do
   end
 
   around :each do |example|
-    Sidekiq::Testing.fake! do
+    Sidekiq.testing!(:fake) do
       example.run
     end
   end
